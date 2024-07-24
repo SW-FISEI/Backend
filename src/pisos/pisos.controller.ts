@@ -5,7 +5,7 @@ import { UpdatePisoDto } from './dto/update-piso.dto';
 
 @Controller('pisos')
 export class PisosController {
-  constructor(private readonly pisosService: PisosService) {}
+  constructor(private readonly pisosService: PisosService) { }
 
   @Post()
   create(@Body() createPisoDto: CreatePisoDto) {
@@ -18,17 +18,28 @@ export class PisosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pisosService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.pisosService.findOne(id);
+  }
+
+  @Get('/piso/:nombre')
+  findName(@Param('nombre') nombre: string) {
+    return this.pisosService.findName(nombre);
+  }
+
+  @Post('/piso')
+  findNameByKey(@Body() body: { nombre: string }) {
+    const { nombre } = body;
+    return this.pisosService.findNameByKey(nombre);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePisoDto: UpdatePisoDto) {
-    return this.pisosService.update(+id, updatePisoDto);
+  update(@Param('id') id: number, @Body() updatePisoDto: UpdatePisoDto) {
+    return this.pisosService.update(id, updatePisoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pisosService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.pisosService.remove(id);
   }
 }
