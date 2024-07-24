@@ -1,26 +1,91 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateObservacioneDto } from './dto/create-observacione.dto';
 import { UpdateObservacioneDto } from './dto/update-observacione.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Observacione } from './entities/observacione.entity';
+import { Maquina } from 'src/maquinas/entities/maquina.entity';
 
 @Injectable()
 export class ObservacionesService {
-  create(createObservacioneDto: CreateObservacioneDto) {
-    return 'This action adds a new observacione';
+
+  constructor(
+    @InjectRepository(Observacione) private observacionRepository: Repository<Observacione>,
+    @InjectRepository(Maquina) private maquinaRepository: Repository<Maquina>) { }
+
+  async create(createObservacioneDto: CreateObservacioneDto) {
+    const { maquina, ...rest } = createObservacioneDto;
+
+    const maquinaE = await this.maquinaRepository.findOne({
+      where: {
+        id: maquina
+      }
+    });
+    if (!maquinaE) throw new HttpException(`No se encontro la maquina`, HttpStatus.NOT_FOUND);
+
+    const observacion = this.observacionRepository.create({
+      ...rest,
+      maquina: maquinaE
+    })
+    return await this.observacionRepository.save(observacion);
   }
 
-  findAll() {
-    return `This action returns all observaciones`;
+  async findAll() {
+    return await this.observacionRepository.find({
+      relations: ['maquina']
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} observacione`;
+  async findOne(id: number) {
+    return await this.observacionRepository.findOne({
+      where: {
+        id: id
+      },
+      relations: ['maquina']
+    });
   }
 
-  update(id: number, updateObservacioneDto: UpdateObservacioneDto) {
-    return `This action updates a #${id} observacione`;
+  async findMaquina(maquina: number) {
+    return await this.observacionRepository.find({
+      where: {
+        maquina: { id: maquina }
+      },
+      relations: ['maquina']
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} observacione`;
+  async findMaquinaNombre(nombre: string) {
+    return await this.observacionRepository.find({
+      where: {
+        maquina: { nombre: nombre }
+      },
+      relations: ['maquina']
+    })
+  }
+
+  async update(id: number, updateObservacioneDto: UpdateObservacioneDto) {
+    const { maquina, ...rest } = updateObservacioneDto;
+
+    const maquinaE = await this.maquinaRepository.findOne({
+      where: {
+        id: maquina
+      }
+    });
+    if (!maquinaE) throw new HttpException(`No se encontr la maquina`, HttpStatus.NOT_FOUND);
+
+    await this.observacionRepository.update({ id }, {
+      ...rest,
+      maquina: maquinaE
+    });
+    return await this.observacionRepository.findOne({
+      where: {
+        id: id
+      },
+      relations: ['maquina']
+    });
+  }
+
+  async remove(id: number) {
+    return await this.observacionRepository.softDelete({ id });
   }
 }

@@ -5,7 +5,7 @@ import { UpdateObservacioneDto } from './dto/update-observacione.dto';
 
 @Controller('observaciones')
 export class ObservacionesController {
-  constructor(private readonly observacionesService: ObservacionesService) {}
+  constructor(private readonly observacionesService: ObservacionesService) { }
 
   @Post()
   create(@Body() createObservacioneDto: CreateObservacioneDto) {
@@ -18,17 +18,27 @@ export class ObservacionesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.observacionesService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.observacionesService.findOne(id);
+  }
+
+  @Get('/maquina/:maquina')
+  findMaquina(@Param('maquina') maquina: number) {
+    return this.observacionesService.findMaquina(maquina)
+  }
+
+  @Get('/maquinaN/:nombre')
+  findMaquinaNombre(@Param('nombre') nombre: string) {
+    return this.observacionesService.findMaquinaNombre(nombre)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateObservacioneDto: UpdateObservacioneDto) {
-    return this.observacionesService.update(+id, updateObservacioneDto);
+  update(@Param('id') id: number, @Body() updateObservacioneDto: UpdateObservacioneDto) {
+    return this.observacionesService.update(id, updateObservacioneDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.observacionesService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.observacionesService.remove(id);
   }
 }
