@@ -5,7 +5,7 @@ import { UpdateDocenteDto } from './dto/update-docente.dto';
 
 @Controller('docentes')
 export class DocentesController {
-  constructor(private readonly docentesService: DocentesService) {}
+  constructor(private readonly docentesService: DocentesService) { }
 
   @Post()
   create(@Body() createDocenteDto: CreateDocenteDto) {
@@ -17,18 +17,34 @@ export class DocentesController {
     return this.docentesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.docentesService.findOne(+id);
+  @Get(':cedula')
+  findOne(@Param('cedula') cedula: string) {
+    return this.docentesService.findOne(cedula);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDocenteDto: UpdateDocenteDto) {
-    return this.docentesService.update(+id, updateDocenteDto);
+  @Get('nombre/:nombre')
+  findOneName(@Param('nombre') nombre: string) {
+    return this.docentesService.findByKey(nombre);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.docentesService.remove(+id);
+  @Post('/docente')
+  async findName(@Body() body: { docente: string }) {
+    const { docente } = body;
+    return this.docentesService.findByKey(docente);
+  }
+
+  @Get('/titulo/:titulo')
+  findTitle(@Param('titulo') titulo: number) {
+    return this.docentesService.findTitle(titulo);
+  }
+
+  @Patch(':cedula')
+  update(@Param('cedula') cedula: string, @Body() updateDocenteDto: UpdateDocenteDto) {
+    return this.docentesService.update(cedula, updateDocenteDto);
+  }
+
+  @Delete(':cedula')
+  remove(@Param('cedula') cedula: string) {
+    return this.docentesService.remove(cedula);
   }
 }

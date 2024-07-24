@@ -6,7 +6,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 export class Docente {
 
     @PrimaryColumn()
-    cedula: number
+    cedula: string
 
     @Column({ type: 'varchar', length: 150, nullable: false })
     docente: string

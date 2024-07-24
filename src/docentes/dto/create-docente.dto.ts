@@ -1,11 +1,12 @@
-import { IsInt, IsPositive, IsString, MaxLength, MinLength } from "class-validator";
+import { IsInt, IsPositive, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class CreateDocenteDto {
 
     @IsString()
     @MinLength(10)
     @MaxLength(10)
-    cedula: number
+    @Matches(/^\d+$/, { message: 'La cédula debe contener solo números' })
+    cedula: string
 
     @IsString()
     @MinLength(4)
