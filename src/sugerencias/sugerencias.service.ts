@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateSugerenciaDto } from './dto/create-sugerencia.dto';
 import { UpdateSugerenciaDto } from './dto/update-sugerencia.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Sugerencia } from './entities/sugerencia.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SugerenciasService {
-  create(createSugerenciaDto: CreateSugerenciaDto) {
-    return 'This action adds a new sugerencia';
+
+  constructor(@InjectRepository(Sugerencia) private sugerenciasRepository: Repository<Sugerencia>) { }
+
+  async create(createSugerenciaDto: CreateSugerenciaDto) {
+    const sugerencia = this.sugerenciasRepository.create(createSugerenciaDto)
+    return await this.sugerenciasRepository.save(sugerencia);
   }
 
-  findAll() {
-    return `This action returns all sugerencias`;
+  async findAll() {
+    return await this.sugerenciasRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sugerencia`;
+  async findOne(id: number) {
+    return await this.sugerenciasRepository.findOne({
+      where: {
+        id: id
+      }
+    });
   }
 
-  update(id: number, updateSugerenciaDto: UpdateSugerenciaDto) {
-    return `This action updates a #${id} sugerencia`;
+  async update(id: number, updateSugerenciaDto: UpdateSugerenciaDto) {
+    const sugerencia = this.sugerenciasRepository.findOneBy({ id });
+    if (!sugerencia) throw new HttpException(`No se encontro la sugerencia`, HttpStatus.NOT_FOUND);
+    return await this.sugerenciasRepository.update({ id }, updateSugerenciaDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} sugerencia`;
+  async remove(id: number) {
+    const sugerencia = this.sugerenciasRepository.findOneBy({ id });
+    if (!sugerencia) throw new HttpException(`No se encontro la sugerencia`, HttpStatus.NOT_FOUND);
+    return await this.sugerenciasRepository.softDelete({ id });
   }
 }

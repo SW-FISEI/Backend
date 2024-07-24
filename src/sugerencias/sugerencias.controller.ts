@@ -18,17 +18,17 @@ export class SugerenciasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sugerenciasService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.sugerenciasService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSugerenciaDto: UpdateSugerenciaDto) {
-    return this.sugerenciasService.update(+id, updateSugerenciaDto);
+  update(@Param('id') id: number, @Body() updateSugerenciaDto: UpdateSugerenciaDto) {
+    return this.sugerenciasService.update(id, updateSugerenciaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sugerenciasService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.sugerenciasService.remove(id);
   }
 }
