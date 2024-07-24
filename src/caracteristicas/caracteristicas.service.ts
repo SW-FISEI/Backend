@@ -9,7 +9,8 @@ import { Aula } from 'src/aulas/entities/aula.entity';
 @Injectable()
 export class CaracteristicasService {
 
-  constructor(@InjectRepository(Caracteristica) private caracteristicaRepository: Repository<Caracteristica>,
+  constructor(
+    @InjectRepository(Caracteristica) private caracteristicaRepository: Repository<Caracteristica>,
     @InjectRepository(Aula) private aulaRepository: Repository<Aula>) { }
 
   async create(createCaracteristicaDto: CreateCaracteristicaDto) {
