@@ -5,7 +5,7 @@ import { UpdateLaboratoristaDto } from './dto/update-laboratorista.dto';
 
 @Controller('laboratoristas')
 export class LaboratoristasController {
-  constructor(private readonly laboratoristasService: LaboratoristasService) {}
+  constructor(private readonly laboratoristasService: LaboratoristasService) { }
 
   @Post()
   create(@Body() createLaboratoristaDto: CreateLaboratoristaDto) {
@@ -17,18 +17,34 @@ export class LaboratoristasController {
     return this.laboratoristasService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.laboratoristasService.findOne(+id);
+  @Get(':cedula')
+  findOne(@Param('cedula') cedula: string) {
+    return this.laboratoristasService.findOne(cedula);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLaboratoristaDto: UpdateLaboratoristaDto) {
-    return this.laboratoristasService.update(+id, updateLaboratoristaDto);
+  @Post('/laboratorista')
+  async findName(@Body() body: { laboratorista: string }) {
+    const { laboratorista } = body;
+    return this.laboratoristasService.findByKey(laboratorista);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.laboratoristasService.remove(+id);
+  @Get('/titulo/:titulo')
+  findTitle(@Param('titulo') titulo: number) {
+    return this.laboratoristasService.findTitle(titulo);
+  }
+
+  @Get('/edificio/:edificio')
+  findBuilding(@Param('edificio') edificio: number) {
+    return this.laboratoristasService.findBuilding(edificio);
+  }
+
+  @Patch(':cedula')
+  update(@Param('cedula') cedula: string, @Body() updateLaboratoristaDto: UpdateLaboratoristaDto) {
+    return this.laboratoristasService.update(cedula, updateLaboratoristaDto);
+  }
+
+  @Delete(':cedula')
+  remove(@Param('cedula') cedula: string) {
+    return this.laboratoristasService.remove(cedula);
   }
 }
