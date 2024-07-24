@@ -5,7 +5,7 @@ import { UpdateHorarioDto } from './dto/update-horario.dto';
 
 @Controller('horarios')
 export class HorariosController {
-  constructor(private readonly horariosService: HorariosService) {}
+  constructor(private readonly horariosService: HorariosService) { }
 
   @Post()
   create(@Body() createHorarioDto: CreateHorarioDto) {
@@ -18,17 +18,43 @@ export class HorariosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.horariosService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.horariosService.findOne(id);
   }
 
+  @Get('/periodo/:periodo')
+  findByPerido(@Param('periodo') periodo: number) {
+    return this.horariosService.findByPerido(periodo);
+  }
+
+  @Get('/numdia/:numero_dia')
+  findNumeroDia(@Param('numero_dia') numero_dia: number) {
+    return this.horariosService.findNumeroDia(numero_dia);
+  }
+
+  @Get('/dia/:dia')
+  findDia(@Param('dia') dia: string) {
+    return this.horariosService.findDia(dia);
+  }
+
+  @Get('/horaI/:inicio')
+  findInicio(@Param('inicio') inicio: string) {
+    return this.horariosService.findInicio(inicio);
+  }
+
+  @Get('/horaF/:fin')
+  findFin(@Param('fin') fin: string) {
+    return this.horariosService.findFin(fin);
+  }
+
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHorarioDto: UpdateHorarioDto) {
-    return this.horariosService.update(+id, updateHorarioDto);
+  update(@Param('id') id: number, @Body() updateHorarioDto: UpdateHorarioDto) {
+    return this.horariosService.update(id, updateHorarioDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.horariosService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.horariosService.remove(id);
   }
 }
