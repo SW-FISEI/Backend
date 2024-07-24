@@ -43,6 +43,6 @@ export class Aula {
     updated_at: Date;
 
     @DeleteDateColumn()
-    delewted_at: Date;
+    deleted_at: Date;
 
 }
