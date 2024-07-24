@@ -5,7 +5,7 @@ import { UpdateMaquinaDto } from './dto/update-maquina.dto';
 
 @Controller('maquinas')
 export class MaquinasController {
-  constructor(private readonly maquinasService: MaquinasService) {}
+  constructor(private readonly maquinasService: MaquinasService) { }
 
   @Post()
   create(@Body() createMaquinaDto: CreateMaquinaDto) {
@@ -18,17 +18,27 @@ export class MaquinasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.maquinasService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.maquinasService.findOne(id);
+  }
+
+  @Get('/aula/:aula')
+  findAula(@Param('aula') aula: number) {
+    return this.maquinasService.findAula(aula)
+  }
+
+  @Get('/nombre/:nombre')
+  findMaquina(@Param('nombre') nombre: string) {
+    return this.maquinasService.findMaquina(nombre)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMaquinaDto: UpdateMaquinaDto) {
-    return this.maquinasService.update(+id, updateMaquinaDto);
+  update(@Param('id') id: number, @Body() updateMaquinaDto: UpdateMaquinaDto) {
+    return this.maquinasService.update(id, updateMaquinaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.maquinasService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.maquinasService.remove(id);
   }
 }
