@@ -5,7 +5,7 @@ import { UpdateDetalleMateriaDto } from './dto/update-detalle_materia.dto';
 
 @Controller('detalle-materias')
 export class DetalleMateriasController {
-  constructor(private readonly detalleMateriasService: DetalleMateriasService) {}
+  constructor(private readonly detalleMateriasService: DetalleMateriasService) { }
 
   @Post()
   create(@Body() createDetalleMateriaDto: CreateDetalleMateriaDto) {
@@ -18,17 +18,37 @@ export class DetalleMateriasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.detalleMateriasService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.detalleMateriasService.findOne(id);
+  }
+
+  @Get('/carrera/:carrera')
+  findCarrera(@Param('carrera') carrera: number) {
+    return this.detalleMateriasService.findCarrera(carrera)
+  }
+
+  @Get('semestre/:semestre')
+  findSemestre(@Param('semestre') semestre: number) {
+    return this.detalleMateriasService.findSemestre(semestre)
+  }
+
+  @Get('/materia/:materia')
+  findMateria(@Param('materia') materia: number) {
+    return this.detalleMateriasService.findMateria(materia)
+  }
+
+  @Get('/paralelo/:paralelo')
+  findParalelo(@Param('paralelo') paralelo: number) {
+    return this.detalleMateriasService.findParalelo(paralelo)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDetalleMateriaDto: UpdateDetalleMateriaDto) {
-    return this.detalleMateriasService.update(+id, updateDetalleMateriaDto);
+  update(@Param('id') id: number, @Body() updateDetalleMateriaDto: UpdateDetalleMateriaDto) {
+    return this.detalleMateriasService.update(id, updateDetalleMateriaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.detalleMateriasService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.detalleMateriasService.remove(id);
   }
 }
