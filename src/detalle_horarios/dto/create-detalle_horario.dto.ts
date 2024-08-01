@@ -1,4 +1,4 @@
-import { IsInt, IsPositive } from "class-validator";
+import { IsInt, IsPositive, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateDetalleHorarioDto {
 
@@ -14,8 +14,9 @@ export class CreateDetalleHorarioDto {
     @IsPositive()
     materia: number;
 
-    @IsInt()
-    @IsPositive()
-    docente: number;
+    @IsString()
+    @MaxLength(10)
+    @MinLength(10)
+    docente: string;
 
 }
