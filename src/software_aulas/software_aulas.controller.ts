@@ -5,7 +5,7 @@ import { UpdateSoftwareAulaDto } from './dto/update-software_aula.dto';
 
 @Controller('software-aulas')
 export class SoftwareAulasController {
-  constructor(private readonly softwareAulasService: SoftwareAulasService) {}
+  constructor(private readonly softwareAulasService: SoftwareAulasService) { }
 
   @Post()
   create(@Body() createSoftwareAulaDto: CreateSoftwareAulaDto) {
@@ -18,17 +18,27 @@ export class SoftwareAulasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.softwareAulasService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.softwareAulasService.findOne(id);
+  }
+
+  @Get('/software/:software')
+  findSoftware(@Param('software') software: number) {
+    return this.softwareAulasService.findSoftware(software);
+  }
+
+  @Get('/aula/:aula')
+  findAula(@Param('aula') aula: number) {
+    return this.softwareAulasService.findAula(aula);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSoftwareAulaDto: UpdateSoftwareAulaDto) {
-    return this.softwareAulasService.update(+id, updateSoftwareAulaDto);
+  update(@Param('id') id: number, @Body() updateSoftwareAulaDto: UpdateSoftwareAulaDto) {
+    return this.softwareAulasService.update(id, updateSoftwareAulaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.softwareAulasService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.softwareAulasService.remove(id);
   }
 }
