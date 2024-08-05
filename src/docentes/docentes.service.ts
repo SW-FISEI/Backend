@@ -43,17 +43,17 @@ export class DocentesService {
     });
   }
 
-  async findByKey(docente: string) {
+  async findByKey(nombre: string) {
     try {
-      if (!docente || typeof docente !== 'string') throw new HttpException(`No se encontor el laboratorista`, HttpStatus.NOT_FOUND);
+      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontor el laboratorista`, HttpStatus.NOT_FOUND);
 
-      const laboratoristas = this.docenteRepository.find({
+      const docente = this.docenteRepository.find({
         where: {
-          docente: Like(`%${docente}%`)
+          docente: Like(`%${nombre}%`)
         },
         relations: ['titulo']
       })
-      return laboratoristas
+      return docente
     } catch (error) {
       throw new HttpException(`Error Interno`, HttpStatus.INTERNAL_SERVER_ERROR)
     }
