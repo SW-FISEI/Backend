@@ -23,6 +23,8 @@ import { HorariosModule } from './horarios/horarios.module';
 import { AccionesBdModule } from './acciones_bd/acciones_bd.module';
 import { SugerenciasModule } from './sugerencias/sugerencias.module';
 import { DetalleMateriasModule } from './detalle_materias/detalle_materias.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [CarrerasModule, SemestresModule, MateriasModule, ParalelosModule, PeriodosModule, SoftwaresModule, DocentesModule, TitulosModule, LaboratoristasModule, EdificiosModule, PisosModule, ObservacionesModule, MaquinasModule, CaracteristicasModule, AulasModule,
@@ -41,7 +43,9 @@ import { DetalleMateriasModule } from './detalle_materias/detalle_materias.modul
     HorariosModule,
     AccionesBdModule,
     SugerenciasModule,
-    DetalleMateriasModule
+    DetalleMateriasModule,
+    UsuariosModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
