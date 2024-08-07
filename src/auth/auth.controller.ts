@@ -4,8 +4,8 @@ import { RegistroDto } from './dto/registro.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
 import { Auth } from './decorators/auth.decorator';
-import { Rol } from './enum/rol.enum';
 import { RequestConUsuario } from './interface/request-con-usuario.interface';
+import { Rol } from 'src/common/enum/rol.enum';
 
 @Controller('auth')
 export class AuthController {
