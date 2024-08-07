@@ -23,7 +23,11 @@ export class UsuariosService {
   }
 
   async findOneByEmail(email: string) {
-    return await this.usuariosRepository.findOneBy({ email })
+    return await this.usuariosRepository.findOne({
+      where: { email },
+      select: ['nombre', 'email', 'contrasenia', 'rol']
+    }
+    )
   }
 
   async findNameByKey(nombre: string) {

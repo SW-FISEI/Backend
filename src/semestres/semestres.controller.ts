@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SemestresService } from './semestres.service';
 import { CreateSemestreDto } from './dto/create-semestre.dto';
 import { UpdateSemestreDto } from './dto/update-semestre.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('semestres')
 export class SemestresController {
   constructor(private readonly semestresService: SemestresService) { }

@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ParalelosService } from './paralelos.service';
 import { CreateParaleloDto } from './dto/create-paralelo.dto';
 import { UpdateParaleloDto } from './dto/update-paralelo.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('paralelos')
 export class ParalelosController {
   constructor(private readonly paralelosService: ParalelosService) { }

@@ -1,22 +1,23 @@
+import { Rol } from "src/common/enum/rol.enum";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('usuarios')
 export class Usuario {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column({ type: 'varchar', length: 30, nullable: false })
-    nombre: string
+    nombre: string;
 
     @Column({ type: 'varchar', length: 50, nullable: false, unique: true })
-    email: string
+    email: string;
 
     @Column({ type: 'varchar', nullable: false })
-    contrasenia: string
+    contrasenia: string;
 
-    @Column({ length: 10, default: 'admin', nullable: false })
-    rol: string
+    @Column({ type: 'enum', enum: Rol, default: Rol.USER, nullable: false })
+    rol: Rol;
 
     @CreateDateColumn()
     created_at: Date;
