@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DetalleMateriasService } from './detalle_materias.service';
 import { CreateDetalleMateriaDto } from './dto/create-detalle_materia.dto';
 import { UpdateDetalleMateriaDto } from './dto/update-detalle_materia.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('detalle-materias')
 export class DetalleMateriasController {
   constructor(private readonly detalleMateriasService: DetalleMateriasService) { }

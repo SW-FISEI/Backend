@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SoftwareAulasService } from './software_aulas.service';
 import { CreateSoftwareAulaDto } from './dto/create-software_aula.dto';
 import { UpdateSoftwareAulaDto } from './dto/update-software_aula.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('software-aulas')
 export class SoftwareAulasController {
   constructor(private readonly softwareAulasService: SoftwareAulasService) { }

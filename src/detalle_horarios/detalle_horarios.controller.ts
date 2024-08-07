@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DetalleHorariosService } from './detalle_horarios.service';
 import { CreateDetalleHorarioDto } from './dto/create-detalle_horario.dto';
 import { UpdateDetalleHorarioDto } from './dto/update-detalle_horario.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('detalle-horarios')
 export class DetalleHorariosController {
   constructor(private readonly detalleHorariosService: DetalleHorariosService) { }
