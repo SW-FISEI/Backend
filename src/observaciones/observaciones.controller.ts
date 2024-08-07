@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ObservacionesService } from './observaciones.service';
 import { CreateObservacioneDto } from './dto/create-observacione.dto';
 import { UpdateObservacioneDto } from './dto/update-observacione.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@Auth(Rol.USER)
 @Controller('observaciones')
 export class ObservacionesController {
   constructor(private readonly observacionesService: ObservacionesService) { }

@@ -11,7 +11,7 @@ export class Docente {
     @Column({ type: 'varchar', length: 150, nullable: false })
     docente: string
 
-    @ManyToOne(() => Titulo, titulo => titulo.docente, { nullable: false })
+    @ManyToOne(() => Titulo, titulo => titulo.docente)
     @JoinColumn({ name: 'id_titulo' })
     titulo: Titulo;
 
