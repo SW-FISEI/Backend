@@ -15,6 +15,11 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('registro')
+    @ApiUnauthorizedResponse({
+        description: 'Unauthorized Bearer Auth',
+    })
+    @ApiBearerAuth()
+    @Auth(Rol.ADMIN)
     registro(@Body() registroDto: RegistroDto) {
         return this.authService.registro(registroDto);
     }
@@ -24,11 +29,11 @@ export class AuthController {
         return this.authService.login(loginDto);
     }
 
+    @Get('test')
     @ApiUnauthorizedResponse({
         description: 'Unauthorized Bearer Auth',
     })
     @ApiBearerAuth()
-    @Get('test')
     @Auth(Rol.ADMIN)
     test(@Request() req: RequestConUsuario) {
         return this.authService.test({
