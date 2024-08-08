@@ -4,7 +4,13 @@ import { CreatePeriodoDto } from './dto/create-periodo.dto';
 import { UpdatePeriodoDto } from './dto/update-periodo.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Periodos')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('periodos')
 export class PeriodosController {

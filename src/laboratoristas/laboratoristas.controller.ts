@@ -4,7 +4,13 @@ import { CreateLaboratoristaDto } from './dto/create-laboratorista.dto';
 import { UpdateLaboratoristaDto } from './dto/update-laboratorista.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Laboratoristas')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.ADMIN)
 @Controller('laboratoristas')
 export class LaboratoristasController {

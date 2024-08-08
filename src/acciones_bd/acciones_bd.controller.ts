@@ -2,7 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AccionesBdService } from './acciones_bd.service';
 import { CreateAccionesBdDto } from './dto/create-acciones_bd.dto';
 import { UpdateAccionesBdDto } from './dto/update-acciones_bd.dto';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Acciones-BD')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Controller('acciones-bd')
 export class AccionesBdController {
   constructor(private readonly accionesBdService: AccionesBdService) {}

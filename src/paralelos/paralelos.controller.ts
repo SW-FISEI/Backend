@@ -4,7 +4,13 @@ import { CreateParaleloDto } from './dto/create-paralelo.dto';
 import { UpdateParaleloDto } from './dto/update-paralelo.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Paralelos')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('paralelos')
 export class ParalelosController {

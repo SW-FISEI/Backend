@@ -4,7 +4,13 @@ import { CreateTituloDto } from './dto/create-titulo.dto';
 import { UpdateTituloDto } from './dto/update-titulo.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Titulos')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('titulos')
 export class TitulosController {

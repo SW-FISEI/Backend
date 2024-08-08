@@ -4,7 +4,13 @@ import { CreateDetalleHorarioDto } from './dto/create-detalle_horario.dto';
 import { UpdateDetalleHorarioDto } from './dto/update-detalle_horario.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Detalle-Horarios')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('detalle-horarios')
 export class DetalleHorariosController {

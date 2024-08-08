@@ -4,7 +4,13 @@ import { CreateDetalleMateriaDto } from './dto/create-detalle_materia.dto';
 import { UpdateDetalleMateriaDto } from './dto/update-detalle_materia.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Detalle-Materias')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('detalle-materias')
 export class DetalleMateriasController {

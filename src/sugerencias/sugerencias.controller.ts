@@ -2,7 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SugerenciasService } from './sugerencias.service';
 import { CreateSugerenciaDto } from './dto/create-sugerencia.dto';
 import { UpdateSugerenciaDto } from './dto/update-sugerencia.dto';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Sugerencias')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Controller('sugerencias')
 export class SugerenciasController {
   constructor(private readonly sugerenciasService: SugerenciasService) {}

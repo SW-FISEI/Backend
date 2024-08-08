@@ -4,7 +4,13 @@ import { CreateSoftwareAulaDto } from './dto/create-software_aula.dto';
 import { UpdateSoftwareAulaDto } from './dto/update-software_aula.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Software-Aulas')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('software-aulas')
 export class SoftwareAulasController {

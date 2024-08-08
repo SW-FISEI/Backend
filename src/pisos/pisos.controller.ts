@@ -4,7 +4,13 @@ import { CreatePisoDto } from './dto/create-piso.dto';
 import { UpdatePisoDto } from './dto/update-piso.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
+@ApiTags('Pisos')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
 @Auth(Rol.USER)
 @Controller('pisos')
 export class PisosController {
