@@ -21,36 +21,22 @@ export class TitulosController {
     return this.titulosService.create(createTituloDto);
   }
 
-  @Get()
-  findAll() {
-    return this.titulosService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.titulosService.findOne(id);
   }
 
-  @Get('nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.titulosService.findOneByName(nombre);
+  @Post('buscarT')
+  findTitulos(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.titulosService.findTitulos(nombre);
   }
 
-  @Get('abreviacion/:abreviacion')
-  fifindOneByAbreviationndOne(@Param('abreviacion') abreviacion: string) {
-    return this.titulosService.findOneByAbreviation(abreviacion);
+  @Post('buscarA')
+  findAbreviacion(@Body() body: { abreviacion?: string }) {
+    const { abreviacion } = body;
+    return this.titulosService.findAbreviacion(abreviacion);
   }
-
-  @Get('nombre/key/:nombre')
-  findOneByNameKey(@Param('nombre') nombre: string) {
-    return this.titulosService.findOneByNameKey(nombre);
-  }
-
-  @Get('abreviacion/key/:abreviacion')
-  findOneByAbreviationKey(@Param('abreviacion') abreviacion: string) {
-    return this.titulosService.findOneByAbreviationKey(abreviacion);
-  }
-
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateTituloDto: UpdateTituloDto) {

@@ -21,24 +21,15 @@ export class MateriasController {
     return this.materiasService.create(createMateriaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.materiasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.materiasService.findOne(id);
   }
 
-  @Get('/nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.materiasService.findOneByName(nombre);
-  }
-
-  @Get('/key/:nombre')
-  findOneByKey(@Param('nombre') nombre: string) {
-    return this.materiasService.findOneByKey(nombre);
+  @Post('buscar')
+  findMateria(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.materiasService.findMateria(nombre)
   }
 
   @Patch(':id')

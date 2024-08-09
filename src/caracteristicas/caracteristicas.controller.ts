@@ -32,23 +32,23 @@ export class CaracteristicasController {
   }
 
   @Get('/cantidad_pc/:cantidad_pc')
-  findOnePC(@Param('cantidad_pc') cantidad_pc: number) {
-    return this.caracteristicasService.findOnePC(cantidad_pc);
+  findPC(@Param('cantidad_pc') cantidad_pc: number) {
+    return this.caracteristicasService.findPC(cantidad_pc);
   }
 
   @Get('/capacidad/:capacidad')
-  findOneCapacity(@Param('capacidad') capacidad: number) {
-    return this.caracteristicasService.findOneCapacity(capacidad);
+  findCapacity(@Param('capacidad') capacidad: number) {
+    return this.caracteristicasService.findCapacity(capacidad);
   }
 
   @Get('/proyector/:proyector')
-  findOneProjector(@Param('proyector') proyector: boolean) {
-    return this.caracteristicasService.findOneProyector(proyector);
+  findProyector(@Param('proyector') proyector: boolean) {
+    return this.caracteristicasService.findProyector(proyector);
   }
 
   @Get('/aire/:aire')
-  findOneAir(@Param('aire') aire: boolean) {
-    return this.caracteristicasService.findOneAir(aire);
+  findAir(@Param('aire') aire: boolean) {
+    return this.caracteristicasService.findAir(aire);
   }
 
   @Patch(':id')

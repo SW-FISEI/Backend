@@ -15,10 +15,6 @@ export class MateriasService {
     return await this.materiaRepository.save(materia);
   }
 
-  async findAll() {
-    return await this.materiaRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.materiaRepository.findOne({
       where: {
@@ -27,23 +23,17 @@ export class MateriasService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.materiaRepository.findOne({
-      where: {
-        nombre: nombre
-      }
-    });
-  }
-
-  async findOneByKey(nombre: string) {
+  async findMateria(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontro la materia`, HttpStatus.NOT_FOUND);
-      const materia = this.materiaRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return materia;
+      if (nombre && typeof nombre === "string") {
+        return await this.materiaRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.materiaRepository.find();
+      }
     } catch (error) {
       throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }

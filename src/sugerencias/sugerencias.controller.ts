@@ -11,21 +11,22 @@ import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger
 @ApiBearerAuth()
 @Controller('sugerencias')
 export class SugerenciasController {
-  constructor(private readonly sugerenciasService: SugerenciasService) {}
+  constructor(private readonly sugerenciasService: SugerenciasService) { }
 
   @Post()
   create(@Body() createSugerenciaDto: CreateSugerenciaDto) {
     return this.sugerenciasService.create(createSugerenciaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.sugerenciasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.sugerenciasService.findOne(id);
+  }
+
+  @Post('buscar')
+  findSugerencias(@Body() body: { sugerencia?: string }) {
+    const { sugerencia } = body;
+    return this.sugerenciasService.findSugerencia(sugerencia);
   }
 
   @Patch(':id')

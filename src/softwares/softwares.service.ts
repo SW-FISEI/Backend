@@ -15,10 +15,6 @@ export class SoftwaresService {
     return await this.softwareRepository.save(software);
   }
 
-  async findAll() {
-    return await this.softwareRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.softwareRepository.findOne({
       where: {
@@ -27,25 +23,19 @@ export class SoftwaresService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.softwareRepository.findOne({
-      where: {
-        nombre: nombre
-      }
-    });
-  }
-
-  async findOneByKey(nombre: string) {
+  async findSoftware(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se enctra el software`, HttpStatus.NOT_FOUND);
-      const software = await this.softwareRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return software;
+      if (nombre && typeof nombre === "string") {
+        return await this.softwareRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.softwareRepository.find();
+      }
     } catch (error) {
-      throw new HttpException(`Fallo interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

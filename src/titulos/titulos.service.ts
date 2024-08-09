@@ -15,10 +15,6 @@ export class TitulosService {
     return await this.tituloRepository.save(titulo);
   }
 
-  async findAll() {
-    return await this.tituloRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.tituloRepository.findOne({
       where: {
@@ -27,47 +23,35 @@ export class TitulosService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.tituloRepository.findOne({
-      where: {
-        nombre: nombre
-      }
-    });
-  }
-
-  async findOneByAbreviation(abreviacion: string) {
-    return await this.tituloRepository.findOne({
-      where: {
-        abreviacion: abreviacion
-      }
-    });
-  }
-
-  async findOneByNameKey(nombre: string) {
+  async findTitulos(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== "string") throw new HttpException(`No se encontro el titulo`, HttpStatus.NOT_FOUND);
-      const titulo = this.tituloRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return titulo;
+      if (nombre && typeof nombre === "string") {
+        return await this.tituloRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.tituloRepository.find();
+      }
     } catch (error) {
-      throw new HttpException(`Errorinterno`, HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async findOneByAbreviationKey(abreviacion: string) {
+  async findAbreviacion(abreviacion?: string) {
     try {
-      if (!abreviacion || typeof abreviacion !== "string") throw new HttpException(`No se encontro el titulo`, HttpStatus.NOT_FOUND);
-      const titulo = this.tituloRepository.find({
-        where: {
-          abreviacion: Like(`%${abreviacion}%`)
-        }
-      })
-      return titulo;
+      if (abreviacion && typeof abreviacion === "string") {
+        return await this.tituloRepository.find({
+          where: {
+            abreviacion: Like(`%${abreviacion}%`)
+          }
+        });
+      } else {
+        return await this.tituloRepository.find();
+      }
     } catch (error) {
-      throw new HttpException(`Errorinterno`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

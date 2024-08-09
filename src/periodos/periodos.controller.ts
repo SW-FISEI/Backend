@@ -31,9 +31,10 @@ export class PeriodosController {
     return this.periodosService.findOne(id);
   }
 
-  @Get('/nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.periodosService.findOneByName(nombre);
+  @Post('buscar')
+  findPerido(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.periodosService.findPerido(nombre);
   }
 
   @Get('/inicioM/:inicio')

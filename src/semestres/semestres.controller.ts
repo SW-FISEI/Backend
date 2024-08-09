@@ -21,24 +21,15 @@ export class SemestresController {
     return this.semestresService.create(createSemestreDto);
   }
 
-  @Get()
-  findAll() {
-    return this.semestresService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.semestresService.findOne(id);
   }
 
-  @Get('/nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.semestresService.findOneByName(nombre);
-  }
-
-  @Get('/key/:nombre')
-  findOneByKey(@Param('nombre') nombre: string) {
-    return this.semestresService.findOneByKey(nombre);
+  @Post('buscar')
+  findSemestre(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.semestresService.findSemestre(nombre);
   }
 
   @Patch(':id')

@@ -38,32 +38,32 @@ export class CaracteristicasService {
     });
   }
 
-  async findOnePC(cantidad_pc: number) {
-    return await this.caracteristicaRepository.findOne({
+  async findPC(cantidad_pc: number) {
+    return await this.caracteristicaRepository.find({
       where: {
         cantidad_pc: cantidad_pc
       }
     });
   }
 
-  async findOneCapacity(capacidad: number) {
-    return await this.caracteristicaRepository.findOne({
+  async findCapacity(capacidad: number) {
+    return await this.caracteristicaRepository.find({
       where: {
         capacidad: capacidad
       }
     });
   }
 
-  async findOneProyector(proyector: boolean) {
-    return await this.caracteristicaRepository.findOne({
+  async findProyector(proyector: boolean) {
+    return await this.caracteristicaRepository.find({
       where: {
         proyector: proyector
       }
     });
   }
 
-  async findOneAir(aire: boolean) {
-    return await this.caracteristicaRepository.findOne({
+  async findAir(aire: boolean) {
+    return await this.caracteristicaRepository.find({
       where: {
         aire: aire
       }

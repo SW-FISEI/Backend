@@ -15,10 +15,6 @@ export class SemestresService {
     return await this.semestreRepository.save(semestre);
   }
 
-  async findAll() {
-    return await this.semestreRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.semestreRepository.findOne({
       where: {
@@ -27,23 +23,17 @@ export class SemestresService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.semestreRepository.findOne({
-      where: {
-        nombre: nombre
-      }
-    });
-  }
-
-  async findOneByKey(nombre: string) {
+  async findSemestre(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontro el semstre`, HttpStatus.NOT_FOUND);
-      const semestre = this.semestreRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return semestre;
+      if (nombre && typeof nombre === "string") {
+        return await this.semestreRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.semestreRepository.find();
+      }
     } catch (error) {
       throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }

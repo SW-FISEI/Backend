@@ -27,12 +27,20 @@ export class PeriodosService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.periodoRepository.findOne({
-      where: {
-        nombre: nombre
+  async findPerido(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.periodoRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.periodoRepository.find();
       }
-    });
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findOneByStartMonth(inicioMes: string) {
@@ -65,20 +73,6 @@ export class PeriodosService {
         finAño: finAño
       }
     });
-  }
-
-  async findOneByKeyName(nombre: string) {
-    try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encotro el periodo`, HttpStatus.NOT_FOUND);
-      const periodo = this.periodoRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return periodo;
-    } catch (error) {
-      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
   }
 
   async update(id: number, updatePeriodoDto: UpdatePeriodoDto) {

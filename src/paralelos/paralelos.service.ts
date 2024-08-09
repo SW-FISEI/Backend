@@ -15,10 +15,6 @@ export class ParalelosService {
     return await this.paraleloRepository.save(paralelo);
   }
 
-  async findAll() {
-    return await this.paraleloRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.paraleloRepository.findOne({
       where: {
@@ -27,25 +23,19 @@ export class ParalelosService {
     });
   }
 
-  async findOneByName(nombre: string) {
-    return await this.paraleloRepository.findOne({
-      where: {
-        nombre: nombre
-      }
-    });
-  }
-
-  async findOneByKey(nombre: string) {
+  async findParalelo(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontro el paralelo`, HttpStatus.NOT_FOUND);
-      const paralelo = this.paraleloRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        }
-      })
-      return paralelo;
+      if (nombre && typeof nombre === "string") {
+        return await this.paraleloRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.paraleloRepository.find();
+      }
     } catch (error) {
-
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

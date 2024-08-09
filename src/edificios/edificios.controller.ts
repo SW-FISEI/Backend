@@ -21,19 +21,15 @@ export class EdificiosController {
     return this.edificiosService.create(createEdificioDto);
   }
 
-  @Get()
-  findAll() {
-    return this.edificiosService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.edificiosService.findOne(id);
   }
 
-  @Get('nombre/:nombre')
-  findOneName(@Param('nombre') nombre: string) {
-    return this.edificiosService.findOneName(nombre);
+  @Post('buscar')
+  findEdificio(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.edificiosService.findEdificio(nombre);
   }
 
   @Patch(':id')

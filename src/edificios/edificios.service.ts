@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateEdificioDto } from './dto/create-edificio.dto';
 import { UpdateEdificioDto } from './dto/update-edificio.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Edificio } from './entities/edificio.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class EdificiosService {
@@ -15,10 +15,6 @@ export class EdificiosService {
     return await this.edificioRepository.save(edificio);
   }
 
-  async findAll() {
-    return await this.edificioRepository.find();
-  }
-
   async findOne(id: number) {
     return await this.edificioRepository.findOne({
       where: {
@@ -27,12 +23,20 @@ export class EdificiosService {
     });
   }
 
-  async findOneName(nombre: string) {
-    return await this.edificioRepository.findOne({
-      where: {
-        nombre: nombre
+  async findEdificio(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.edificioRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          }
+        });
+      } else {
+        return await this.edificioRepository.find();
       }
-    });
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async update(id: number, updateEdificioDto: UpdateEdificioDto) {

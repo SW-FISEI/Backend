@@ -21,24 +21,15 @@ export class CarrerasController {
     return this.carrerasService.create(createCarreraDto);
   }
 
-  @Get()
-  findAll() {
-    return this.carrerasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.carrerasService.findOne(id);
   }
 
-  @Get('/name/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.carrerasService.findOneByName(nombre);
-  }
-
-  @Get('/key/:nombre')
-  findOneByKey(@Param('nombre') nombre: string) {
-    return this.carrerasService.findOneByKey(nombre);
+  @Post('buscar')
+  findCarrera(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.carrerasService.findCarrera(nombre);
   }
 
   @Patch(':id')

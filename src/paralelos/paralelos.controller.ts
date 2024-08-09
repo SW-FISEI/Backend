@@ -21,24 +21,15 @@ export class ParalelosController {
     return this.paralelosService.create(createParaleloDto);
   }
 
-  @Get()
-  findAll() {
-    return this.paralelosService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.paralelosService.findOne(id);
   }
 
-  @Get('/nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.paralelosService.findOneByName(nombre);
-  }
-
-  @Get('/key/:nombre')
-  findOneByKey(@Param('nombre') nombre: string) {
-    return this.paralelosService.findOneByKey(nombre);
+  @Post('buscar')
+  findParalelo(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.paralelosService.findParalelo(nombre);
   }
 
   @Patch(':id')

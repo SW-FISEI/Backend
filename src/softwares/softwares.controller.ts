@@ -21,25 +21,15 @@ export class SoftwaresController {
     return this.softwaresService.create(createSoftwareDto);
   }
 
-  @Get()
-  findAll() {
-    return this.softwaresService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.softwaresService.findOne(id);
   }
 
-  @Get('nombre/:nombre')
-  findOneByName(@Param('nombre') nombre: string) {
-    return this.softwaresService.findOneByName(nombre);
-  }
-
-  /* BUSQUEDA POR KEY COMO BODY */
-  @Post('search')
-  findOneByKey(@Body('nombre') nombre: string) {
-    return this.softwaresService.findOneByKey(nombre);
+  @Post('buscar')
+  findSoftware(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.softwaresService.findSoftware(nombre);
   }
 
   @Patch(':id')
