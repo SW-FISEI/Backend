@@ -19,7 +19,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle("Horarios FISEI")
-    .setDescription("API de aplicación horarios")
+    .setDescription("Documentacion de aplicación de horarios para la FISEI.")
     .setVersion("2.0")
     .addBearerAuth()
     .build();
