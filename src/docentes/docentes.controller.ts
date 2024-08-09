@@ -21,25 +21,15 @@ export class DocentesController {
     return this.docentesService.create(createDocenteDto);
   }
 
-  @Get()
-  findAll() {
-    return this.docentesService.findAll();
-  }
-
   @Get(':cedula')
   findOne(@Param('cedula') cedula: string) {
     return this.docentesService.findOne(cedula);
   }
 
-  @Get('nombre/:nombre')
-  findOneName(@Param('nombre') nombre: string) {
-    return this.docentesService.findByKey(nombre);
-  }
-
-  @Post('/docente')
-  async findName(@Body() body: { docente: string }) {
+  @Post('buscar')
+  async findDocente(@Body() body: { docente?: string }) {
     const { docente } = body;
-    return this.docentesService.findByKey(docente);
+    return this.docentesService.findDocente(docente);
   }
 
   @Get('/titulo/:titulo')

@@ -31,36 +31,49 @@ export class MaquinasService {
     return await this.maquinaRepository.save(maquina);
   }
 
-  async findAll() {
-    return await this.maquinaRepository.find({
-      relations: ['aula']
-    });
-  }
-
   async findOne(id: number) {
     return await this.maquinaRepository.findOne({
       where: { id: id },
-      relations: ['aula']
+      relations: ['aula', 'observaciones']
     });
   }
 
-  async findAula(id: number) {
-    return await this.maquinaRepository.find({
-      where: {
-        aula: { id: id }
-      },
-      relations: ['aula']
-    })
+  async findMaquina(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.maquinaRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          },
+          relations: ['aula', 'observaciones']
+        });
+      } else {
+        return await this.maquinaRepository.find({
+          relations: ['aula', 'observaciones']
+        });
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  async findMaquina(nombre: string) {
-    return await this.maquinaRepository.find({
-      where: {
-        nombre: Like(`%${nombre}%`)
-      },
-      relations: ['aula']
+  async findAula(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.maquinaRepository.find({
+          where: {
+            aula: { nombre: Like(`%${nombre}%`) }
+          },
+          relations: ['aula', 'observaciones']
+        })
+      } else {
+        return await this.maquinaRepository.find({
+          relations: ['aula', 'observaciones']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    )
   }
 
   async update(id: number, updateMaquinaDto: UpdateMaquinaDto) {

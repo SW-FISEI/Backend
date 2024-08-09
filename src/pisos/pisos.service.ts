@@ -3,7 +3,7 @@ import { CreatePisoDto } from './dto/create-piso.dto';
 import { UpdatePisoDto } from './dto/update-piso.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Piso } from './entities/piso.entity';
-import { Like, Repository } from 'typeorm';
+import { Like, Repository, TypeORMError } from 'typeorm';
 import { Edificio } from 'src/edificios/entities/edificio.entity';
 
 @Injectable()
@@ -27,12 +27,6 @@ export class PisosService {
     return await this.pisoRepository.save(piso);
   }
 
-  async findAll() {
-    return await this.pisoRepository.find({
-      relations: ['edificio', 'aula']
-    });
-  }
-
   async findOne(id: number) {
     return await this.pisoRepository.findOne({
       where: {
@@ -42,28 +36,60 @@ export class PisosService {
     });
   }
 
-  async findName(nombre: string) {
-    return await this.pisoRepository.findOne({
-      where: {
-        nombre: nombre
-      },
-      relations: ['edificio', 'aula']
-    });
+  async findPiso(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.pisoRepository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          },
+          relations: ['edificio', 'aula']
+        })
+      } else {
+        return await this.pisoRepository.find({
+          relations: ['edificio', 'aula']
+        });
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  async findNameByKey(nombre: string) {
+  async findEdificio(nombre?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontor el piso`, HttpStatus.NOT_FOUND);
-
-      const pisos = this.pisoRepository.find({
-        where: {
-          nombre: Like(`%${nombre}%`)
-        },
-        relations: ['edificio', 'aula']
-      })
-      return pisos;
+      if (nombre && typeof nombre === "string") {
+        return await this.pisoRepository.find({
+          where: {
+            edificio: { nombre: Like(`%${nombre}%`) }
+          },
+          relations: ['edificio', 'aula']
+        })
+      } else {
+        return await this.pisoRepository.find({
+          relations: ['edificio', 'aula']
+        });
+      }
     } catch (error) {
-      throw new HttpException(`Error Interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async findAula(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.pisoRepository.find({
+          where: {
+            aula: { nombre: Like(`%${nombre}%`) }
+          },
+          relations: ['edificio', 'aula']
+        })
+      } else {
+        return await this.pisoRepository.find({
+          relations: ['edificio', 'aula']
+        });
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

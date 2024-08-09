@@ -21,25 +21,27 @@ export class PisosController {
     return this.pisosService.create(createPisoDto);
   }
 
-  @Get()
-  findAll() {
-    return this.pisosService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.pisosService.findOne(id);
   }
 
-  @Get('/piso/:nombre')
-  findName(@Param('nombre') nombre: string) {
-    return this.pisosService.findName(nombre);
+  @Post('buscarP')
+  findPiso(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.pisosService.findPiso(nombre);
   }
 
-  @Post('/piso')
-  findNameByKey(@Body() body: { nombre: string }) {
+  @Post('buscarE')
+  findEdificio(@Body() body: { nombre?: string }) {
     const { nombre } = body;
-    return this.pisosService.findNameByKey(nombre);
+    return this.pisosService.findEdificio(nombre);
+  }
+
+  @Post('buscarA')
+  findAula(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.pisosService.findAula(nombre);
   }
 
   @Patch(':id')

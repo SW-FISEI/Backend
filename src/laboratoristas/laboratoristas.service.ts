@@ -33,12 +33,6 @@ export class LaboratoristasService {
     return await this.laboratoristaRepository.save(laboratorista);
   }
 
-  async findAll() {
-    return await this.laboratoristaRepository.find({
-      relations: ['titulo', 'edificio']
-    });
-  }
-
   async findOne(cedula: string) {
     return await this.laboratoristaRepository.find({
       where: {
@@ -48,26 +42,26 @@ export class LaboratoristasService {
     });
   }
 
-  async findByKey(laboratorista: string) {
+  async findLaboratorista(laboratorista?: string) {
     try {
-      if (!laboratorista || typeof laboratorista !== 'string') {
-        throw new HttpException('No se encontró el laboratorista', HttpStatus.NOT_FOUND);
+      if (laboratorista && typeof laboratorista === "string") {
+        return await this.laboratoristaRepository.find({
+          where: {
+            laboratorista: Like(`%${laboratorista}%`)
+          },
+          relations: ['titulo', 'edificio']
+        })
+      } else {
+        return await this.laboratoristaRepository.find({
+          relations: ['titulo', 'edificio']
+        })
       }
-
-      const laboratoristas = this.laboratoristaRepository.find({
-        where: {
-          laboratorista: Like(`%${laboratorista}%`)
-        },
-        relations: ['titulo', 'edificio']
-      });
-
-      return laboratoristas;
     } catch (error) {
-      throw new HttpException('Error Interno', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  async findTitle(tituloId: number) {
+  async findTitulo(tituloId: number) {
     return await this.laboratoristaRepository.find({
       where: {
         titulo: { id: tituloId }
@@ -76,8 +70,8 @@ export class LaboratoristasService {
     });
   }
 
-  async findBuilding(edificioId: number) {
-    return await this.laboratoristaRepository.findOne({
+  async findEdificio(edificioId: number) {
+    return await this.laboratoristaRepository.find({
       where: {
         edificio: { id: edificioId }
       },

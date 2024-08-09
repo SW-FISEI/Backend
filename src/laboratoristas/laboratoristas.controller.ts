@@ -21,30 +21,25 @@ export class LaboratoristasController {
     return this.laboratoristasService.create(createLaboratoristaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.laboratoristasService.findAll();
-  }
-
   @Get(':cedula')
   findOne(@Param('cedula') cedula: string) {
     return this.laboratoristasService.findOne(cedula);
   }
 
-  @Post('/laboratorista')
-  async findName(@Body() body: { laboratorista: string }) {
+  @Post('buscar')
+  async findLaboratorista(@Body() body: { laboratorista?: string }) {
     const { laboratorista } = body;
-    return this.laboratoristasService.findByKey(laboratorista);
+    return this.laboratoristasService.findLaboratorista(laboratorista);
   }
 
   @Get('/titulo/:titulo')
   findTitle(@Param('titulo') titulo: number) {
-    return this.laboratoristasService.findTitle(titulo);
+    return this.laboratoristasService.findTitulo(titulo);
   }
 
   @Get('/edificio/:edificio')
   findBuilding(@Param('edificio') edificio: number) {
-    return this.laboratoristasService.findBuilding(edificio);
+    return this.laboratoristasService.findEdificio(edificio);
   }
 
   @Patch(':cedula')

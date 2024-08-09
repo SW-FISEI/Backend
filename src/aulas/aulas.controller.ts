@@ -21,14 +21,15 @@ export class AulasController {
     return this.aulasService.create(createAulaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.aulasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.aulasService.findOne(id);
+  }
+
+  @Post('buscar')
+  findAula(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.aulasService.findAula(nombre)
   }
 
   @Get('/piso/:piso')
@@ -39,11 +40,6 @@ export class AulasController {
   @Get('/caracteristica/:caracteristica')
   findCaracteristica(@Param('caracteristica') caracteristica: number) {
     return this.aulasService.findCaracteristica(caracteristica);
-  }
-
-  @Get('/nombre/:nombre')
-  findNombre(@Param('nombre') nombre: string) {
-    return this.aulasService.findNombre(nombre);
   }
 
   @Patch(':id')

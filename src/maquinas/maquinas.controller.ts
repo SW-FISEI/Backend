@@ -21,24 +21,21 @@ export class MaquinasController {
     return this.maquinasService.create(createMaquinaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.maquinasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.maquinasService.findOne(id);
   }
 
-  @Get('/aula/:aula')
-  findAula(@Param('aula') aula: number) {
-    return this.maquinasService.findAula(aula)
+  @Post('buscarM')
+  findMaquina(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.maquinasService.findMaquina(nombre)
   }
 
-  @Get('/nombre/:nombre')
-  findMaquina(@Param('nombre') nombre: string) {
-    return this.maquinasService.findMaquina(nombre)
+  @Post('buscarA')
+  findAula(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.maquinasService.findAula(nombre)
   }
 
   @Patch(':id')

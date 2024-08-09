@@ -28,12 +28,6 @@ export class DocentesService {
     return await this.docenteRepository.save(docente)
   }
 
-  async findAll() {
-    return await this.docenteRepository.find({
-      relations: ['titulo']
-    });
-  }
-
   async findOne(cedula: string) {
     return await this.docenteRepository.findOne({
       where: {
@@ -43,19 +37,22 @@ export class DocentesService {
     });
   }
 
-  async findByKey(nombre: string) {
+  async findDocente(docente?: string) {
     try {
-      if (!nombre || typeof nombre !== 'string') throw new HttpException(`No se encontor el laboratorista`, HttpStatus.NOT_FOUND);
-
-      const docente = this.docenteRepository.find({
-        where: {
-          docente: Like(`%${nombre}%`)
-        },
-        relations: ['titulo']
-      })
-      return docente
+      if (docente && typeof docente === "string") {
+        return await this.docenteRepository.find({
+          where: {
+            docente: Like(`%${docente}%`)
+          },
+          relations: ['titulo']
+        });
+      } else {
+        return await this.docenteRepository.find({
+          relations: ['titulo']
+        });
+      }
     } catch (error) {
-      throw new HttpException(`Error Interno`, HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

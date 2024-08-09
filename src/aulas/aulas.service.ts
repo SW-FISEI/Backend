@@ -41,12 +41,6 @@ export class AulasService {
     return await this.aulaRespository.save(aula);
   }
 
-  async findAll() {
-    return await this.aulaRespository.find({
-      relations: ['piso', 'caracteristica']
-    });
-  }
-
   async findOne(id: number) {
     return await this.aulaRespository.findOne({
       where: {
@@ -54,6 +48,25 @@ export class AulasService {
       },
       relations: ['piso', 'caracteristica']
     });
+  }
+
+  async findAula(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.aulaRespository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          },
+          relations: ['piso', 'caracteristica']
+        });
+      } else {
+        return await this.aulaRespository.find({
+          relations: ['piso', 'caracteristica']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findPiso(id: number) {
@@ -69,15 +82,6 @@ export class AulasService {
     return await this.aulaRespository.find({
       where: {
         caracteristica: { id: id }
-      },
-      relations: ['piso', 'caracteristica']
-    })
-  }
-
-  async findNombre(nombre: string) {
-    return await this.aulaRespository.find({
-      where: {
-        nombre: Like(`%${nombre}%`)
       },
       relations: ['piso', 'caracteristica']
     })
