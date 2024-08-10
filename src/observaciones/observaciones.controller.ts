@@ -21,19 +21,20 @@ export class ObservacionesController {
     return this.observacionesService.create(createObservacioneDto);
   }
 
-  @Get()
-  findAll() {
-    return this.observacionesService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.observacionesService.findOne(id);
   }
 
+  @Post('buscar')
+  findObservacion(@Body() body: { descripcion?: string }) {
+    const { descripcion } = body;
+    return this.observacionesService.findObservacion(descripcion);
+  }
+
   @Get('/maquina/:maquina')
   findMaquina(@Param('maquina') maquina: number) {
-    return this.observacionesService.findMaquina(maquina)
+    return this.observacionesService.findMaquinaId(maquina)
   }
 
   @Get('/maquinaN/:nombre')

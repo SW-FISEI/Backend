@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateObservacioneDto } from './dto/create-observacione.dto';
 import { UpdateObservacioneDto } from './dto/update-observacione.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Observacione } from './entities/observacione.entity';
 import { Maquina } from 'src/maquinas/entities/maquina.entity';
 
@@ -30,10 +30,23 @@ export class ObservacionesService {
     return await this.observacionRepository.save(observacion);
   }
 
-  async findAll() {
-    return await this.observacionRepository.find({
-      relations: ['maquina']
-    });
+  async findObservacion(descripcion?: string) {
+    try {
+      if (descripcion && typeof descripcion === "string") {
+        return await this.observacionRepository.find({
+          where: {
+            descripcion: Like(`%${descripcion}%`)
+          },
+          relations: ['maquina', 'maquina.aula']
+        })
+      } else {
+        return await this.observacionRepository.find({
+          relations: ['maquina', 'maquina.aula']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findOne(id: number) {
@@ -41,16 +54,16 @@ export class ObservacionesService {
       where: {
         id: id
       },
-      relations: ['maquina']
+      relations: ['maquina', 'maquina.aula']
     });
   }
 
-  async findMaquina(maquina: number) {
+  async findMaquinaId(maquina: number) {
     return await this.observacionRepository.find({
       where: {
         maquina: { id: maquina }
       },
-      relations: ['maquina']
+      relations: ['maquina', 'maquina.aula']
     });
   }
 
@@ -59,7 +72,7 @@ export class ObservacionesService {
       where: {
         maquina: { nombre: nombre }
       },
-      relations: ['maquina']
+      relations: ['maquina', 'maquina.aula']
     })
   }
 
