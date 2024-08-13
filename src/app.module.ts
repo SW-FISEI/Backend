@@ -14,7 +14,6 @@ import { EdificiosModule } from './edificios/edificios.module';
 import { PisosModule } from './pisos/pisos.module';
 import { ObservacionesModule } from './observaciones/observaciones.module';
 import { MaquinasModule } from './maquinas/maquinas.module';
-import { CaracteristicasModule } from './caracteristicas/caracteristicas.module';
 import { AulasModule } from './aulas/aulas.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SoftwareAulasModule } from './software_aulas/software_aulas.module';
@@ -27,7 +26,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [CarrerasModule, SemestresModule, MateriasModule, ParalelosModule, PeriodosModule, SoftwaresModule, DocentesModule, TitulosModule, LaboratoristasModule, EdificiosModule, PisosModule, ObservacionesModule, MaquinasModule, CaracteristicasModule, AulasModule,
+  imports: [CarrerasModule, SemestresModule, MateriasModule, ParalelosModule, PeriodosModule, SoftwaresModule, DocentesModule, TitulosModule, LaboratoristasModule, EdificiosModule, PisosModule, ObservacionesModule, MaquinasModule, AulasModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
