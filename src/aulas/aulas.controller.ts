@@ -5,6 +5,7 @@ import { UpdateAulaDto } from './dto/update-aula.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
 import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Caracteristicas } from 'src/common/enum/caracteristicas.enum';
 
 @ApiTags('Aulas')
 @ApiUnauthorizedResponse({
@@ -32,14 +33,29 @@ export class AulasController {
     return this.aulasService.findAula(nombre)
   }
 
+  @Get('/cantidad_pc/:cantidad_pc')
+  findPC(@Param('cantidad_pc') cantidad_pc: number) {
+    return this.aulasService.findPC(cantidad_pc);
+  }
+
+  @Get('/capacidad/:capacidad')
+  findCapacity(@Param('capacidad') capacidad: number) {
+    return this.aulasService.findCapacity(capacidad);
+  }
+
+  @Get('/proyector/:proyector')
+  findProyector(@Param('proyector') proyector: Caracteristicas) {
+    return this.aulasService.findProyector(proyector);
+  }
+
+  @Get('/aire/:aire')
+  findAir(@Param('aire') aire: Caracteristicas) {
+    return this.aulasService.findAir(aire);
+  }
+
   @Get('/piso/:piso')
   findPiso(@Param('piso') piso: number) {
     return this.aulasService.findPiso(piso);
-  }
-
-  @Get('/caracteristica/:caracteristica')
-  findCaracteristica(@Param('caracteristica') caracteristica: number) {
-    return this.aulasService.findCaracteristica(caracteristica);
   }
 
   @Patch(':id')

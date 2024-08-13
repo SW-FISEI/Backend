@@ -1,4 +1,5 @@
-import { IsInt, IsPositive, IsString, MaxLength, MinLength } from "class-validator";
+import { IsEnum, IsInt, IsPositive, IsString, Max, MaxLength, MinLength } from "class-validator";
+import { Caracteristicas } from "src/common/enum/caracteristicas.enum";
 
 export class CreateAulaDto {
 
@@ -9,10 +10,27 @@ export class CreateAulaDto {
 
     @IsInt()
     @IsPositive()
-    piso: number;
+    @Max(50)
+    cantidad_pc: number;
 
     @IsInt()
     @IsPositive()
-    caracteristica: number;
+    @Max(50)
+    capacidad: number;
+
+    @IsEnum(Caracteristicas)
+    proyector: Caracteristicas;
+
+    @IsEnum(Caracteristicas)
+    aire: Caracteristicas;
+
+    @IsString()
+    @MinLength(4)
+    @MaxLength(150)
+    descripcion: string;
+
+    @IsInt()
+    @IsPositive()
+    piso: number;
 
 }

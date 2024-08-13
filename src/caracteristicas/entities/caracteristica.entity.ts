@@ -22,10 +22,6 @@ export class Caracteristica {
     @Column({ type: "varchar", length: 150, nullable: false })
     descripcion: string;
 
-    @OneToOne(() => Aula, aula => aula.caracteristica, {nullable:true})
-    @JoinColumn({ name: 'id_aula' })
-    aula: Aula;
-
     @CreateDateColumn()
     created_at: Date;
 

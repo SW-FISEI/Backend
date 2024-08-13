@@ -14,7 +14,7 @@ export class CaracteristicasService {
     @InjectRepository(Aula) private aulaRepository: Repository<Aula>) { }
 
   async create(createCaracteristicaDto: CreateCaracteristicaDto) {
-    const { aula, ...rest } = createCaracteristicaDto;
+    /* const { aula, ...rest } = createCaracteristicaDto;
     const caracteristica = this.caracteristicaRepository.create({
       ...rest,
       aula: aula ? await this.aulaRepository.findOne({
@@ -23,7 +23,7 @@ export class CaracteristicasService {
         }
       }) : null,
     });
-    return await this.caracteristicaRepository.save(caracteristica);
+    return await this.caracteristicaRepository.save(caracteristica); */
   }
 
   async findAll() {

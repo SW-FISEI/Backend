@@ -4,26 +4,19 @@ import { UpdateAulaDto } from './dto/update-aula.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Aula } from './entities/aula.entity';
 import { Like, Repository } from 'typeorm';
-import { Caracteristica } from 'src/caracteristicas/entities/caracteristica.entity';
 import { Piso } from 'src/pisos/entities/piso.entity';
+import { Caracteristicas } from 'src/common/enum/caracteristicas.enum';
 
 @Injectable()
 export class AulasService {
 
   constructor(
     @InjectRepository(Aula) private aulaRespository: Repository<Aula>,
-    @InjectRepository(Caracteristica) private caracteristicaRepository: Repository<Caracteristica>,
     @InjectRepository(Piso) private pisoRepository: Repository<Piso>
   ) { }
 
   async create(createAulaDto: CreateAulaDto) {
-    const { caracteristica, piso, ...rest } = createAulaDto;
-    const caracteristicaE = await this.caracteristicaRepository.findOne({
-      where: {
-        id: caracteristica
-      }
-    })
-    if (!caracteristicaE) throw new HttpException(`No se encontro la caracteristica`, HttpStatus.NOT_FOUND);
+    const { piso, ...rest } = createAulaDto;
 
     const pisoE = await this.pisoRepository.findOne({
       where: {
@@ -35,7 +28,6 @@ export class AulasService {
 
     const aula = this.aulaRespository.create({
       ...rest,
-      caracteristica: caracteristicaE,
       piso: pisoE
     });
     return await this.aulaRespository.save(aula);
@@ -46,7 +38,39 @@ export class AulasService {
       where: {
         id: id
       },
-      relations: ['piso', 'caracteristica']
+      relations: ['piso']
+    });
+  }
+
+  async findPC(cantidad_pc: number) {
+    return await this.aulaRespository.find({
+      where: {
+        cantidad_pc: cantidad_pc
+      }
+    });
+  }
+
+  async findCapacity(capacidad: number) {
+    return await this.aulaRespository.find({
+      where: {
+        capacidad: capacidad
+      }
+    });
+  }
+
+  async findProyector(proyector: Caracteristicas) {
+    return await this.aulaRespository.find({
+      where: {
+        proyector: proyector
+      }
+    });
+  }
+
+  async findAir(aire: Caracteristicas) {
+    return await this.aulaRespository.find({
+      where: {
+        aire: aire
+      }
     });
   }
 
@@ -57,11 +81,11 @@ export class AulasService {
           where: {
             nombre: Like(`%${nombre}%`)
           },
-          relations: ['piso', 'caracteristica']
+          relations: ['piso']
         });
       } else {
         return await this.aulaRespository.find({
-          relations: ['piso', 'caracteristica']
+          relations: ['piso']
         })
       }
     } catch (error) {
@@ -74,28 +98,12 @@ export class AulasService {
       where: {
         piso: { id: id }
       },
-      relations: ['piso', 'caracteristica']
-    })
-  }
-
-  async findCaracteristica(id: number) {
-    return await this.aulaRespository.find({
-      where: {
-        caracteristica: { id: id }
-      },
-      relations: ['piso', 'caracteristica']
+      relations: ['piso']
     })
   }
 
   async update(id: number, updateAulaDto: UpdateAulaDto) {
-    const { caracteristica, piso, ...rest } = updateAulaDto;
-
-    const caracteristicaE = await this.caracteristicaRepository.findOne({
-      where: {
-        id: caracteristica
-      }
-    })
-    if (!caracteristicaE) throw new HttpException(`No se encontro la caracteristica`, HttpStatus.NOT_FOUND);
+    const { piso, ...rest } = updateAulaDto;
 
     const pisoE = await this.pisoRepository.findOne({
       where: {
@@ -107,15 +115,14 @@ export class AulasService {
 
     await this.aulaRespository.update({ id }, {
       ...rest,
-      piso: pisoE,
-      caracteristica: caracteristicaE
+      piso: pisoE
     });
 
     return await this.aulaRespository.findOne({
       where: {
         id: id
       },
-      relations: ['piso', 'caracteristica']
+      relations: ['piso']
     });
   }
 
