@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Horario } from './entities/horario.entity';
 import { Repository } from 'typeorm';
 import { Periodo } from 'src/periodos/entities/periodo.entity';
+import { Dias } from 'src/common/enum/dias.enum';
 
 @Injectable()
 export class HorariosService {
@@ -33,6 +34,15 @@ export class HorariosService {
 
   async findAll() {
     return await this.horarioRepository.find({
+      select: {
+        id: true,
+        inicio: true,
+        fin: true,
+        dia: true,
+        periodo: {
+          nombre: true,
+        },
+      },
       relations: ['periodo']
     });
   }
@@ -55,16 +65,7 @@ export class HorariosService {
     })
   }
 
-  async findNumeroDia(numero_dia: number) {
-    return await this.horarioRepository.find({
-      where: {
-        numero_dia: numero_dia
-      },
-      relations: ['periodo']
-    })
-  }
-
-  async findDia(dia: string) {
+  async findDia(dia: Dias) {
     return await this.horarioRepository.find({
       where: {
         dia: dia

@@ -1,3 +1,4 @@
+import { Dias } from "src/common/enum/dias.enum";
 import { DetalleHorario } from "src/detalle_horarios/entities/detalle_horario.entity";
 import { Periodo } from "src/periodos/entities/periodo.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
@@ -14,11 +15,8 @@ export class Horario {
     @Column({ type: "time", nullable: false })
     fin: string
 
-    @Column({ type: "varchar", length: 15, nullable: false })
-    dia: string
-
-    @Column({ type: "int", nullable: false })
-    numero_dia: number
+    @Column({ type: 'enum', enum: Dias, nullable: false })
+    dia: Dias
 
     @ManyToOne(() => Periodo, periodo => periodo.horarios, { nullable: false })
     @JoinColumn({ name: 'id_periodo' })

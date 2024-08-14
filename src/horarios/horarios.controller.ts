@@ -5,6 +5,7 @@ import { UpdateHorarioDto } from './dto/update-horario.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Rol } from 'src/common/enum/rol.enum';
 import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Dias } from 'src/common/enum/dias.enum';
 
 @ApiTags('Horarios')
 @ApiUnauthorizedResponse({
@@ -36,13 +37,8 @@ export class HorariosController {
     return this.horariosService.findByPerido(periodo);
   }
 
-  @Get('/numdia/:numero_dia')
-  findNumeroDia(@Param('numero_dia') numero_dia: number) {
-    return this.horariosService.findNumeroDia(numero_dia);
-  }
-
   @Get('/dia/:dia')
-  findDia(@Param('dia') dia: string) {
+  findDia(@Param('dia') dia: Dias) {
     return this.horariosService.findDia(dia);
   }
 
