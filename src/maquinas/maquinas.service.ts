@@ -31,6 +31,20 @@ export class MaquinasService {
     return await this.maquinaRepository.save(maquina);
   }
 
+  async findAll() {
+    return await this.maquinaRepository.find({
+      select: {
+        id: true,
+        nombre: true,
+        aula: {
+          id: true,
+          nombre: true
+        }
+      },
+      relations: ['aula']
+    })
+  }
+
   async findOne(id: number) {
     return await this.maquinaRepository.findOne({
       where: { id: id },
