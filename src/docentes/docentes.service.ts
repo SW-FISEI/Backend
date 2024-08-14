@@ -44,6 +44,13 @@ export class DocentesService {
           where: {
             docente: Like(`%${docente}%`)
           },
+          select: {
+            cedula: true,
+            docente: true,
+            titulo: {
+              nombre: true,
+            }
+          },
           relations: ['titulo']
         });
       } else {

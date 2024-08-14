@@ -43,6 +43,13 @@ export class PisosService {
           where: {
             nombre: Like(`%${nombre}%`)
           },
+          select: {
+            id: true,
+            nombre: true,
+            edificio: {
+              nombre: true,
+            }
+          },
           relations: ['edificio', 'aula']
         })
       } else {

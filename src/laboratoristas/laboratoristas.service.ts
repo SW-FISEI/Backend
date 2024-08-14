@@ -49,6 +49,13 @@ export class LaboratoristasService {
           where: {
             laboratorista: Like(`%${laboratorista}%`)
           },
+          select: {
+            cedula: true,
+            laboratorista: true,
+            titulo: {
+              nombre: true,
+            }
+          },
           relations: ['titulo', 'edificio']
         })
       } else {

@@ -32,40 +32,33 @@ export class ObservacionesService {
     return await this.observacionRepository.save(observacion);
   }
 
-  async findAll() {
-    return await this.observacionRepository.find({
-      select: {
-        id: true,
-        descripcion: true,
-        maquina: {
-          nombre: true,
-          aula: {
-            nombre: true,
-            piso: {
-              nombre: true,
-              edificio: {
-                nombre: true,
-              }
-            }
-          },
-        },
-      },
-      relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
-    });
-  }
-
   async findObservacion(descripcion?: string) {
     try {
       if (descripcion && typeof descripcion === "string") {
         return await this.observacionRepository.find({
           where: {
             descripcion: Like(`%${descripcion}%`)
+          }, select: {
+            id: true,
+            descripcion: true,
+            maquina: {
+              nombre: true,
+              aula: {
+                nombre: true,
+                piso: {
+                  nombre: true,
+                  edificio: {
+                    nombre: true,
+                  }
+                }
+              },
+            },
           },
-          relations: ['maquina', 'maquina.aula']
+          relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
         })
       } else {
         return await this.observacionRepository.find({
-          relations: ['maquina', 'maquina.aula']
+          relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
         })
       }
     } catch (error) {

@@ -21,11 +21,6 @@ export class MaquinasController {
     return this.maquinasService.create(createMaquinaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.maquinasService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.maquinasService.findOne(id);

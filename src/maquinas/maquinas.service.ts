@@ -31,27 +31,6 @@ export class MaquinasService {
     return await this.maquinaRepository.save(maquina);
   }
 
-  async findAll() {
-    return await this.maquinaRepository.find({
-      select: {
-        id: true,
-        nombre: true,
-        aula: {
-          id: true,
-          nombre: true
-        }
-      },
-      relations: ['aula']
-    })
-  }
-
-  async findOne(id: number) {
-    return await this.maquinaRepository.findOne({
-      where: { id: id },
-      relations: ['aula', 'observaciones']
-    });
-  }
-
   async findMaquina(nombre?: string) {
     try {
       if (nombre && typeof nombre === "string") {
@@ -59,7 +38,15 @@ export class MaquinasService {
           where: {
             nombre: Like(`%${nombre}%`)
           },
-          relations: ['aula', 'observaciones']
+          select: {
+            id: true,
+            nombre: true,
+            aula: {
+              id: true,
+              nombre: true
+            }
+          },
+          relations: ['aula']
         });
       } else {
         return await this.maquinaRepository.find({
@@ -70,6 +57,14 @@ export class MaquinasService {
       throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  async findOne(id: number) {
+    return await this.maquinaRepository.findOne({
+      where: { id: id },
+      relations: ['aula', 'observaciones']
+    });
+  }
+
 
   async findAula(nombre?: string) {
     try {
