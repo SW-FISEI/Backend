@@ -21,6 +21,11 @@ export class ObservacionesController {
     return this.observacionesService.create(createObservacioneDto);
   }
 
+  @Get()
+  findAll() {
+    return this.observacionesService.findAll();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.observacionesService.findOne(id);

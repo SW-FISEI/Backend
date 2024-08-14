@@ -5,13 +5,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { Observacione } from './entities/observacione.entity';
 import { Maquina } from 'src/maquinas/entities/maquina.entity';
+import { Aula } from 'src/aulas/entities/aula.entity';
 
 @Injectable()
 export class ObservacionesService {
 
   constructor(
     @InjectRepository(Observacione) private observacionRepository: Repository<Observacione>,
-    @InjectRepository(Maquina) private maquinaRepository: Repository<Maquina>) { }
+    @InjectRepository(Maquina) private maquinaRepository: Repository<Maquina>,
+    @InjectRepository(Aula) private aulaRepository: Repository<Aula>) { }
 
   async create(createObservacioneDto: CreateObservacioneDto) {
     const { maquina, ...rest } = createObservacioneDto;
@@ -28,6 +30,28 @@ export class ObservacionesService {
       maquina: maquinaE
     })
     return await this.observacionRepository.save(observacion);
+  }
+
+  async findAll() {
+    return await this.observacionRepository.find({
+      select: {
+        id: true,
+        descripcion: true,
+        maquina: {
+          nombre: true,
+          aula: {
+            nombre: true,
+            piso: {
+              nombre: true,
+              edificio: {
+                nombre: true,
+              }
+            }
+          },
+        },
+      },
+      relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
+    });
   }
 
   async findObservacion(descripcion?: string) {
