@@ -22,6 +22,11 @@ export class AulasController {
     return this.aulasService.create(createAulaDto);
   }
 
+  @Get()
+  findAll() {
+    return this.aulasService.findAll();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.aulasService.findOne(id);

@@ -33,6 +33,10 @@ export class AulasService {
     return await this.aulaRespository.save(aula);
   }
 
+  async findAll() {
+    return await this.aulaRespository.find();
+  }
+
   async findOne(id: number) {
     return await this.aulaRespository.findOne({
       where: {
