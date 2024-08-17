@@ -26,6 +26,12 @@ export class DetalleMateriasController {
     return this.detalleMateriasService.findAll();
   }
 
+  @Post('buscar')
+  findCarreraP(@Body() body: { carrera?: string }) {
+    const { carrera } = body;
+    return this.detalleMateriasService.findDetalle(carrera)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.detalleMateriasService.findOne(id);

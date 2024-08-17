@@ -3,7 +3,7 @@ import { CreateDetalleMateriaDto } from './dto/create-detalle_materia.dto';
 import { UpdateDetalleMateriaDto } from './dto/update-detalle_materia.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DetalleMateria } from './entities/detalle_materia.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Carrera } from 'src/carreras/entities/carrera.entity';
 import { Semestre } from 'src/semestres/entities/semestre.entity';
 import { Materia } from 'src/materias/entities/materia.entity';
@@ -65,6 +65,41 @@ export class DetalleMateriasService {
     return await this.detalleMateriaRepository.find({
       relations: ['carrera', 'semestre', 'materia', 'paralelo']
     });
+  }
+
+  async findDetalle(carrera?: string) {
+    try {
+      if (carrera && typeof carrera === "string") {
+        return await this.detalleMateriaRepository.find({
+          where: {
+            carrera: Like(`%${carrera}%`)
+          },
+          select: {
+            id: true,
+            carrera: {
+              nombre: true,
+            },
+            semestre: {
+              nombre: true,
+            },
+            materia: {
+              nombre: true,
+            },
+            paralelo: {
+              nombre: true,
+            },
+          },
+          relations: ['carrera', 'semestre', 'materia', 'paralelo']
+        })
+      } else {
+        return await this.detalleMateriaRepository.find({
+          relations: ['carrera', 'semestre', 'materia', 'paralelo']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
   }
 
   async findOne(id: number) {
