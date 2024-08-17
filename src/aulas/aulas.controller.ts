@@ -22,20 +22,15 @@ export class AulasController {
     return this.aulasService.create(createAulaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.aulasService.findAll();
+  @Post('buscar')
+  findAula(@Body() body: { nombre?: string }) {
+    const { nombre } = body;
+    return this.aulasService.findAula(nombre)
   }
 
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.aulasService.findOne(id);
-  }
-
-  @Post('buscar')
-  findAula(@Body() body: { nombre?: string }) {
-    const { nombre } = body;
-    return this.aulasService.findAula(nombre)
   }
 
   @Get('/cantidad_pc/:cantidad_pc')

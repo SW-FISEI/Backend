@@ -33,8 +33,47 @@ export class AulasService {
     return await this.aulaRespository.save(aula);
   }
 
-  async findAll() {
-    return await this.aulaRespository.find();
+  async findAula(nombre?: string) {
+    try {
+      if (nombre && typeof nombre === "string") {
+        return await this.aulaRespository.find({
+          where: {
+            nombre: Like(`%${nombre}%`)
+          },
+          select: {
+            id: true,
+            nombre: true,
+            cantidad_pc: true,
+            capacidad: true,
+            proyector: true,
+            aire: true,
+            descripcion: true,
+            piso: {
+              nombre: true,
+              edificio: {
+                nombre: true
+              }
+            }
+          },
+          relations: ['piso', 'piso.edificio']
+        });
+      } else {
+        return await this.aulaRespository.find({
+          relations: ['piso', 'piso.edificio']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async findPiso(id: number) {
+    return await this.aulaRespository.find({
+      where: {
+        piso: { id: id }
+      },
+      relations: ['piso', 'edificio']
+    })
   }
 
   async findOne(id: number) {
@@ -42,7 +81,22 @@ export class AulasService {
       where: {
         id: id
       },
-      relations: ['piso']
+      select: {
+        id: true,
+        nombre: true,
+        cantidad_pc: true,
+        capacidad: true,
+        proyector: true,
+        aire: true,
+        descripcion: true,
+        piso: {
+          nombre: true,
+          edificio: {
+            nombre: true
+          }
+        }
+      },
+      relations: ['piso', 'piso.edificio']
     });
   }
 
@@ -78,34 +132,6 @@ export class AulasService {
     });
   }
 
-  async findAula(nombre?: string) {
-    try {
-      if (nombre && typeof nombre === "string") {
-        return await this.aulaRespository.find({
-          where: {
-            nombre: Like(`%${nombre}%`)
-          },
-          relations: ['piso']
-        });
-      } else {
-        return await this.aulaRespository.find({
-          relations: ['piso']
-        })
-      }
-    } catch (error) {
-      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async findPiso(id: number) {
-    return await this.aulaRespository.find({
-      where: {
-        piso: { id: id }
-      },
-      relations: ['piso']
-    })
-  }
-
   async update(id: number, updateAulaDto: UpdateAulaDto) {
     const { piso, ...rest } = updateAulaDto;
 
@@ -113,7 +139,7 @@ export class AulasService {
       where: {
         id: piso
       },
-      relations: ['edificio']
+      relations: ['piso', 'edificio']
     });
     if (!pisoE) throw new HttpException(`No se encontro el piso`, HttpStatus.NOT_FOUND)
 
@@ -126,7 +152,7 @@ export class AulasService {
       where: {
         id: id
       },
-      relations: ['piso']
+      relations: ['piso', 'edificio']
     });
   }
 
