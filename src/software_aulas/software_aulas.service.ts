@@ -43,7 +43,7 @@ export class SoftwareAulasService {
 
   async findAll() {
     return await this.softwareAulaRepository.find({
-      relations: ['software', 'aula']
+      relations: ['software', 'aula', 'aula.piso', 'aula.piso.edificio']
     });
   }
 
