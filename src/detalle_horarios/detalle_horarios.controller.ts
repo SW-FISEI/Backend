@@ -41,9 +41,9 @@ export class DetalleHorariosController {
     return this.detalleHorariosService.findMateria(materia);
   }
 
-  @Get('/horario/:horario')
-  findHorario(@Param('horario') horario: number) {
-    return this.detalleHorariosService.findHorario(horario);
+  @Get('/periodo/:periodo')
+  findPeriodo(@Param('periodo') periodo: number) {
+    return this.detalleHorariosService.findPeriodo(periodo);
   }
 
   @Get('/docente/:docente')

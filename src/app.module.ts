@@ -18,7 +18,6 @@ import { AulasModule } from './aulas/aulas.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SoftwareAulasModule } from './software_aulas/software_aulas.module';
 import { DetalleHorariosModule } from './detalle_horarios/detalle_horarios.module';
-import { HorariosModule } from './horarios/horarios.module';
 import { AccionesBdModule } from './acciones_bd/acciones_bd.module';
 import { SugerenciasModule } from './sugerencias/sugerencias.module';
 import { DetalleMateriasModule } from './detalle_materias/detalle_materias.module';
@@ -39,7 +38,6 @@ import { AuthModule } from './auth/auth.module';
     }),
     SoftwareAulasModule,
     DetalleHorariosModule,
-    HorariosModule,
     AccionesBdModule,
     SugerenciasModule,
     DetalleMateriasModule,

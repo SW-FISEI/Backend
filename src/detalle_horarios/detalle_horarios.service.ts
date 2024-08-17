@@ -5,9 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DetalleHorario } from './entities/detalle_horario.entity';
 import { Repository } from 'typeorm';
 import { DetalleMateria } from 'src/detalle_materias/entities/detalle_materia.entity';
-import { Horario } from 'src/horarios/entities/horario.entity';
 import { Aula } from 'src/aulas/entities/aula.entity';
 import { Docente } from 'src/docentes/entities/docente.entity';
+import { Periodo } from 'src/periodos/entities/periodo.entity';
 
 @Injectable()
 export class DetalleHorariosService {
@@ -15,13 +15,20 @@ export class DetalleHorariosService {
   constructor(
     @InjectRepository(DetalleHorario) private detalleHorarioRepository: Repository<DetalleHorario>,
     @InjectRepository(DetalleMateria) private detalleMateriaRepository: Repository<DetalleMateria>,
-    @InjectRepository(Horario) private horarioRepository: Repository<Horario>,
+    @InjectRepository(Periodo) private periodoRepository: Repository<Periodo>,
     @InjectRepository(Aula) private aulaRepository: Repository<Aula>,
     @InjectRepository(Docente) private docenteRepository: Repository<Docente>
   ) { }
 
   async create(createDetalleHorarioDto: CreateDetalleHorarioDto) {
-    const { aula, horario, materia, docente, ...rest } = createDetalleHorarioDto
+    const { periodo, aula, materia, docente, ...rest } = createDetalleHorarioDto
+
+    const periodoE = await this.periodoRepository.findOne({
+      where: {
+        id: periodo
+      }
+    })
+    if (!periodoE) throw new HttpException(`No se encontro el periodo`, HttpStatus.NOT_FOUND);
 
     const aulaE = await this.aulaRepository.findOne({
       where: {
@@ -29,13 +36,6 @@ export class DetalleHorariosService {
       }
     });
     if (!aulaE) throw new HttpException(`No se encontor el aula`, HttpStatus.NOT_FOUND);
-
-    const horarioE = await this.horarioRepository.findOne({
-      where: {
-        id: horario
-      }
-    });
-    if (!horarioE) throw new HttpException(`No se encontro el horario`, HttpStatus.NOT_FOUND);
 
     const materiaE = await this.detalleMateriaRepository.findOne({
       where: {
@@ -53,8 +53,8 @@ export class DetalleHorariosService {
 
     const detalle_horario = this.detalleHorarioRepository.create({
       ...rest,
+      periodo: periodoE,
       aula: aulaE,
-      horario: horarioE,
       materia: materiaE,
       docente: docenteE
     });
@@ -63,7 +63,7 @@ export class DetalleHorariosService {
 
   async findAll() {
     return await this.detalleHorarioRepository.find({
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     });
   }
 
@@ -72,7 +72,7 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     });
   }
 
@@ -81,16 +81,16 @@ export class DetalleHorariosService {
       where: {
         aula: { id: aula }
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     })
   }
 
-  async findHorario(horario: number) {
+  async findPeriodo(periodo: number) {
     return await this.detalleHorarioRepository.find({
       where: {
-        horario: { id: horario }
+        periodo: { id: periodo }
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     })
   }
 
@@ -99,7 +99,7 @@ export class DetalleHorariosService {
       where: {
         materia: { id: materia }
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     })
   }
 
@@ -108,12 +108,19 @@ export class DetalleHorariosService {
       where: {
         docente: { cedula: docente }
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     })
   }
 
   async update(id: number, updateDetalleHorarioDto: UpdateDetalleHorarioDto) {
-    const { aula, horario, materia, docente, ...rest } = updateDetalleHorarioDto;
+    const { periodo, aula, materia, docente, ...rest } = updateDetalleHorarioDto;
+
+    const periodoE = await this.periodoRepository.findOne({
+      where: {
+        id: periodo
+      }
+    })
+    if (!periodoE) throw new HttpException(`No se encontro el periodo`, HttpStatus.NOT_FOUND);
 
     const aulaE = await this.aulaRepository.findOne({
       where: {
@@ -121,13 +128,6 @@ export class DetalleHorariosService {
       }
     });
     if (!aulaE) throw new HttpException(`No se encontor el aula`, HttpStatus.NOT_FOUND);
-
-    const horarioE = await this.horarioRepository.findOne({
-      where: {
-        id: horario
-      }
-    });
-    if (!horarioE) throw new HttpException(`No se encontro el horario`, HttpStatus.NOT_FOUND);
 
     const materiaE = await this.detalleMateriaRepository.findOne({
       where: {
@@ -153,9 +153,9 @@ export class DetalleHorariosService {
     await this.detalleHorarioRepository.update({ id },
       {
         ...rest,
+        periodo: periodoE,
         aula: aulaE,
         materia: materiaE,
-        horario: horarioE,
         docente: docenteE
       }
     );
@@ -163,7 +163,7 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula', 'horario', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'docente']
     })
   }
 

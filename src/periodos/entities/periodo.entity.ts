@@ -1,4 +1,4 @@
-import { Horario } from "src/horarios/entities/horario.entity";
+import { DetalleHorario } from "src/detalle_horarios/entities/detalle_horario.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('periodos')
@@ -22,8 +22,8 @@ export class Periodo {
     @Column({ type: "varchar", length: 7, nullable: false })
     finAño: string;
 
-    @OneToMany(() => Horario, horario => horario.periodo)
-    horarios: Horario[]
+    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.periodo)
+    detalle_horario: DetalleHorario[]
 
     @CreateDateColumn()
     created_at: Date;
