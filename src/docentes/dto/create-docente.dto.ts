@@ -1,4 +1,4 @@
-import { IsInt, IsPositive, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsInt, IsOptional, IsPositive, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class CreateDocenteDto {
 
@@ -15,6 +15,7 @@ export class CreateDocenteDto {
 
     @IsInt()
     @IsPositive()
+    @IsOptional()
     titulo: number;
 
 }
