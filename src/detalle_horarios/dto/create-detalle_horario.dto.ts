@@ -3,10 +3,6 @@ import { Dias } from "src/common/enum/dias.enum";
 
 export class CreateDetalleHorarioDto {
 
-    @IsInt()
-    @IsPositive()
-    aula: number;
-
     @IsString()
     @Matches(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: 'El campo inicio debe estar en formato HH:MM' })
     inicio: string
@@ -22,19 +18,19 @@ export class CreateDetalleHorarioDto {
 
     @IsInt()
     @IsPositive()
-    periodo: number
+    aula: number;
 
     @IsInt()
     @IsPositive()
-    horario: number;
-
-    @IsInt()
-    @IsPositive()
-    materia: number;
+    detalle_materia: number; 
 
     @IsString()
     @MaxLength(10)
     @MinLength(10)
     docente: string;
+
+    @IsInt()
+    @IsPositive()
+    periodo: number
 
 }

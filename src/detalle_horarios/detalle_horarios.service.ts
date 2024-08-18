@@ -3,7 +3,7 @@ import { CreateDetalleHorarioDto } from './dto/create-detalle_horario.dto';
 import { UpdateDetalleHorarioDto } from './dto/update-detalle_horario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DetalleHorario } from './entities/detalle_horario.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { DetalleMateria } from 'src/detalle_materias/entities/detalle_materia.entity';
 import { Aula } from 'src/aulas/entities/aula.entity';
 import { Docente } from 'src/docentes/entities/docente.entity';
@@ -21,7 +21,7 @@ export class DetalleHorariosService {
   ) { }
 
   async create(createDetalleHorarioDto: CreateDetalleHorarioDto) {
-    const { periodo, aula, materia, docente, ...rest } = createDetalleHorarioDto
+    const { periodo, aula, detalle_materia, docente, ...rest } = createDetalleHorarioDto
 
     const periodoE = await this.periodoRepository.findOne({
       where: {
@@ -39,7 +39,7 @@ export class DetalleHorariosService {
 
     const materiaE = await this.detalleMateriaRepository.findOne({
       where: {
-        id: materia
+        id: detalle_materia
       }
     });
     if (!materiaE) throw new HttpException(`No se encontro la materia`, HttpStatus.NOT_FOUND);
@@ -63,7 +63,7 @@ export class DetalleHorariosService {
 
   async findAll() {
     return await this.detalleHorarioRepository.find({
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     });
   }
 
@@ -72,17 +72,27 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     });
   }
 
-  async findAula(aula: number) {
-    return await this.detalleHorarioRepository.find({
-      where: {
-        aula: { id: aula }
-      },
-      relations: ['aula', 'periodo', 'materia', 'docente']
-    })
+  async findAula(aula?: string) {
+    try {
+      if (aula && typeof aula === "string") {
+        return await this.detalleHorarioRepository.find({
+          where: {
+            aula: Like(`%${aula}%`)
+          },
+          relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
+        })
+      } else {
+        return await this.detalleHorarioRepository.find({
+          relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
+        })
+      }
+    } catch (error) {
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findPeriodo(periodo: number) {
@@ -90,7 +100,7 @@ export class DetalleHorariosService {
       where: {
         periodo: { id: periodo }
       },
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     })
   }
 
@@ -99,7 +109,7 @@ export class DetalleHorariosService {
       where: {
         materia: { id: materia }
       },
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     })
   }
 
@@ -108,12 +118,12 @@ export class DetalleHorariosService {
       where: {
         docente: { cedula: docente }
       },
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     })
   }
 
   async update(id: number, updateDetalleHorarioDto: UpdateDetalleHorarioDto) {
-    const { periodo, aula, materia, docente, ...rest } = updateDetalleHorarioDto;
+    const { periodo, aula, detalle_materia, docente, ...rest } = updateDetalleHorarioDto;
 
     const periodoE = await this.periodoRepository.findOne({
       where: {
@@ -131,7 +141,7 @@ export class DetalleHorariosService {
 
     const materiaE = await this.detalleMateriaRepository.findOne({
       where: {
-        id: materia
+        id: detalle_materia
       }
     });
     if (!materiaE) throw new HttpException(`No se encontro la materia`, HttpStatus.NOT_FOUND);
@@ -163,7 +173,7 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula', 'periodo', 'materia', 'docente']
+      relations: ['aula', 'periodo', 'materia', 'materia.materia', 'docente']
     })
   }
 

@@ -31,8 +31,9 @@ export class DetalleHorariosController {
     return this.detalleHorariosService.findOne(id);
   }
 
-  @Get('/aula/:aula')
-  findAula(@Param('aula') aula: number) {
+  @Post('/buscarA')
+  findAula(@Body() body: { aula: string }) {
+    const { aula } = body;
     return this.detalleHorariosService.findAula(aula);
   }
 
