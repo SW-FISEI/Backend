@@ -16,6 +16,6 @@ export class CreateDocenteDto {
     @IsInt()
     @IsPositive()
     @IsOptional()
-    titulo: number;
+    titulo?: number;
 
 }

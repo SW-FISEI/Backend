@@ -16,16 +16,24 @@ export class DocentesService {
 
   async create(createDocenteDto: CreateDocenteDto) {
     const { titulo, ...rest } = createDocenteDto;
-
-    const tituloE = await this.tituloRepository.findOne({ where: { id: titulo } })
-    if (!tituloE) throw new HttpException(`No se encontro el titulo`, HttpStatus.NOT_FOUND)
-
+  
+    let tituloE = null;
+    
+    if (titulo) {
+      tituloE = await this.tituloRepository.findOne({ where: { id: titulo } });
+  
+      // Si no encuentras el título, puedes lanzar un error o manejarlo según el caso
+      if (!tituloE) {
+        throw new Error(`El título con id ${titulo} no existe.`);
+      }
+    }
+  
     const docente = this.docenteRepository.create({
       ...rest,
       titulo: tituloE,
     });
-
-    return await this.docenteRepository.save(docente)
+  
+    return await this.docenteRepository.save(docente);
   }
 
   async findOne(cedula: string) {
