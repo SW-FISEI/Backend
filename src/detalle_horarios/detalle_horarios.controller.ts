@@ -31,6 +31,12 @@ export class DetalleHorariosController {
     return this.detalleHorariosService.findOne(id);
   }
 
+  @Post('/buscarE')
+  findEdificio(@Body() body: { edificio: string }) {
+    const { edificio } = body;
+    return this.detalleHorariosService.findEdificio(edificio);
+  }
+
   @Post('/buscarA')
   findAula(@Body() body: { aula: string }) {
     const { aula } = body;

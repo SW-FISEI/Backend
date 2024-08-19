@@ -8,7 +8,7 @@ export class CreateSoftwareDto {
     nombre: string
 
     @IsString()
-    @MinLength(4)
+    @MinLength(1)
     @MaxLength(50)
     version: string
 

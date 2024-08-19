@@ -76,6 +76,31 @@ export class DetalleHorariosService {
     });
   }
 
+  async findEdificio(edificio?: string) {
+    try {
+      if (edificio && typeof edificio === "string") {
+        return await this.detalleHorarioRepository.find({
+          where: {
+            aula: {
+              piso: {
+                edificio: {
+                  nombre: Like(`%${edificio}%`)
+                }
+              }
+            }
+          },
+          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+        })
+      } else {
+        return await this.detalleHorarioRepository.find({
+          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+        })
+      }
+    } catch (error) {
+
+    }
+  }
+
   async findAula(aula?: string) {
     try {
       if (aula && typeof aula === "string") {
