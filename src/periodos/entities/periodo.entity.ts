@@ -1,3 +1,4 @@
+import { Estado } from "src/common/enum/estado.enum";
 import { DetalleHorario } from "src/detalle_horarios/entities/detalle_horario.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -21,6 +22,9 @@ export class Periodo {
 
     @Column({ type: "varchar", length: 7, nullable: false })
     finAño: string;
+
+    @Column({ type: "enum", enum: Estado, nullable: false })
+    estado: Estado;
 
     @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.periodo)
     detalle_horario: DetalleHorario[]
