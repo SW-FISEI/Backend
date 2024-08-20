@@ -22,6 +22,7 @@ import { AccionesBdModule } from './acciones_bd/acciones_bd.module';
 import { DetalleMateriasModule } from './detalle_materias/detalle_materias.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
+import { DetallePisosModule } from './detalle_pisos/detalle_pisos.module';
 
 @Module({
   imports: [CarrerasModule, SemestresModule, MateriasModule, ParalelosModule, PeriodosModule, SoftwaresModule, DocentesModule, TitulosModule, LaboratoristasModule, EdificiosModule, PisosModule, ObservacionesModule, MaquinasModule, AulasModule,
@@ -40,7 +41,8 @@ import { AuthModule } from './auth/auth.module';
     AccionesBdModule,
     DetalleMateriasModule,
     UsuariosModule,
-    AuthModule
+    AuthModule,
+    DetallePisosModule
   ],
   controllers: [AppController],
   providers: [AppService],
