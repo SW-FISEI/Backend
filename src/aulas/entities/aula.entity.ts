@@ -1,7 +1,7 @@
 import { Caracteristicas } from "src/common/enum/caracteristicas.enum";
 import { DetalleHorario } from "src/detalle_horarios/entities/detalle_horario.entity";
+import { DetallePiso } from "src/detalle_pisos/entities/detalle_piso.entity";
 import { Maquina } from "src/maquinas/entities/maquina.entity";
-import { Piso } from "src/pisos/entities/piso.entity";
 import { SoftwareAula } from "src/software_aulas/entities/software_aula.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -29,9 +29,9 @@ export class Aula {
     @Column({ type: "varchar", length: 150, nullable: false })
     descripcion: string;
 
-    @ManyToOne(() => Piso, piso => piso.aula, { nullable: false })
-    @JoinColumn({ name: 'id_piso' })
-    piso: Piso;
+    @ManyToOne(() => DetallePiso, detalle_piso => detalle_piso.aula, { nullable: false })
+    @JoinColumn({ name: 'id_detalle_piso' })
+    detalle_piso: DetallePiso;
 
     @OneToMany(() => Maquina, maquina => maquina.aula)
     maquinas: Maquina[];
@@ -50,5 +50,4 @@ export class Aula {
 
     @DeleteDateColumn()
     deleted_at: Date;
-
 }

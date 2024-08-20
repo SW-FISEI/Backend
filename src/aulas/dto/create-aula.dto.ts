@@ -31,6 +31,5 @@ export class CreateAulaDto {
 
     @IsInt()
     @IsPositive()
-    piso: number;
-
+    detalle_piso: number;
 }

@@ -4,31 +4,31 @@ import { UpdateAulaDto } from './dto/update-aula.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Aula } from './entities/aula.entity';
 import { Like, Repository } from 'typeorm';
-import { Piso } from 'src/pisos/entities/piso.entity';
 import { Caracteristicas } from 'src/common/enum/caracteristicas.enum';
+import { DetallePiso } from 'src/detalle_pisos/entities/detalle_piso.entity';
 
 @Injectable()
 export class AulasService {
 
   constructor(
     @InjectRepository(Aula) private aulaRespository: Repository<Aula>,
-    @InjectRepository(Piso) private pisoRepository: Repository<Piso>
+    @InjectRepository(DetallePiso) private detallePisoRepository: Repository<DetallePiso>
   ) { }
 
   async create(createAulaDto: CreateAulaDto) {
-    const { piso, ...rest } = createAulaDto;
+    const { detalle_piso, ...rest } = createAulaDto;
 
-    const pisoE = await this.pisoRepository.findOne({
+    const pisoE = await this.detallePisoRepository.findOne({
       where: {
-        id: piso
+        id: detalle_piso
       },
-      relations: ['edificio']
+      relations: ['piso', 'edificio']
     });
-    if (!pisoE) throw new HttpException(`No se encontro el piso`, HttpStatus.NOT_FOUND)
+    if (!pisoE) throw new HttpException(`No se encontro el detalle piso`, HttpStatus.NOT_FOUND)
 
     const aula = this.aulaRespository.create({
       ...rest,
-      piso: pisoE
+      detalle_piso: pisoE
     });
     return await this.aulaRespository.save(aula);
   }
@@ -48,18 +48,20 @@ export class AulasService {
             proyector: true,
             aire: true,
             descripcion: true,
-            piso: {
-              nombre: true,
+            detalle_piso: {
+              piso: {
+                nombre: true
+              },
               edificio: {
                 nombre: true
               }
             }
           },
-          relations: ['piso', 'piso.edificio']
+          relations: ['detalle_piso.piso', 'detalle_piso.edificio']
         });
       } else {
         return await this.aulaRespository.find({
-          relations: ['piso', 'piso.edificio']
+          relations: ['detalle_piso.piso', 'detalle_piso.edificio']
         })
       }
     } catch (error) {
@@ -70,9 +72,9 @@ export class AulasService {
   async findPiso(id: number) {
     return await this.aulaRespository.find({
       where: {
-        piso: { id: id }
+        detalle_piso: { id: id }
       },
-      relations: ['piso', 'edificio']
+      relations: ['detalle_piso.piso', 'detalle_piso.edificio']
     })
   }
 
@@ -89,14 +91,16 @@ export class AulasService {
         proyector: true,
         aire: true,
         descripcion: true,
-        piso: {
-          nombre: true,
+        detalle_piso: {
+          piso: {
+            nombre: true
+          },
           edificio: {
             nombre: true
           }
         }
       },
-      relations: ['piso', 'piso.edificio']
+      relations: ['detalle_piso.piso', 'detalle_piso.edificio']
     });
   }
 
@@ -133,26 +137,26 @@ export class AulasService {
   }
 
   async update(id: number, updateAulaDto: UpdateAulaDto) {
-    const { piso, ...rest } = updateAulaDto;
+    const { detalle_piso, ...rest } = updateAulaDto;
 
-    const pisoE = await this.pisoRepository.findOne({
+    const pisoE = await this.detallePisoRepository.findOne({
       where: {
-        id: piso
+        id: detalle_piso
       },
-      relations: ['piso', 'edificio']
+      relations: ['detalle_piso.piso', 'detalle_piso.edificio']
     });
     if (!pisoE) throw new HttpException(`No se encontro el piso`, HttpStatus.NOT_FOUND)
 
     await this.aulaRespository.update({ id }, {
       ...rest,
-      piso: pisoE
+      detalle_piso: pisoE
     });
 
     return await this.aulaRespository.findOne({
       where: {
         id: id
       },
-      relations: ['piso', 'edificio']
+      relations: ['detalle_piso.piso', 'detalle_piso.edificio']
     });
   }
 

@@ -7,11 +7,13 @@ import { PisosService } from 'src/pisos/pisos.service';
 import { EdificiosService } from 'src/edificios/edificios.service';
 import { Piso } from 'src/pisos/entities/piso.entity';
 import { Edificio } from 'src/edificios/entities/edificio.entity';
+import { DetallePiso } from 'src/detalle_pisos/entities/detalle_piso.entity';
+import { DetallePisosService } from 'src/detalle_pisos/detalle_pisos.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Aula, Piso, Edificio])],
+  imports: [TypeOrmModule.forFeature([Aula, Piso, Edificio, DetallePiso])],
   controllers: [AulasController],
-  providers: [AulasService, PisosService, EdificiosService],
+  providers: [AulasService, PisosService, EdificiosService, DetallePisosService],
   exports: [TypeOrmModule]
 })
 export class AulasModule { }
