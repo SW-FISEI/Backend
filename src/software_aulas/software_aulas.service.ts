@@ -43,7 +43,7 @@ export class SoftwareAulasService {
 
   async findAll() {
     return await this.softwareAulaRepository.find({
-      relations: ['software', 'aula', 'aula.piso', 'aula.piso.edificio']
+      relations: ['software', 'aula', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio']
     });
   }
 
@@ -52,7 +52,7 @@ export class SoftwareAulasService {
       where: {
         id: id
       },
-      relations: ['software', 'aula']
+      relations: ['software', 'aula', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio']
     });
   }
 
@@ -61,7 +61,7 @@ export class SoftwareAulasService {
       where: {
         software: { id: software }
       },
-      relations: ['software', 'aula']
+      relations: ['software', 'aula', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio']
     })
   }
 
@@ -70,7 +70,7 @@ export class SoftwareAulasService {
       where: {
         aula: { id: aula }
       },
-      relations: ['software', 'aula']
+      relations: ['software', 'aula', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio']
     })
   }
 
@@ -107,7 +107,7 @@ export class SoftwareAulasService {
       where: {
         id: id
       },
-      relations: ['software', 'aula']
+      relations: ['software', 'aula', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio']
     });
   }
 
