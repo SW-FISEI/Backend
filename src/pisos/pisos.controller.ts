@@ -26,23 +26,17 @@ export class PisosController {
     return this.pisosService.findOne(id);
   }
 
-  @Post('buscarP')
+  @Post('buscar')
   findPiso(@Body() body: { nombre?: string }) {
     const { nombre } = body;
     return this.pisosService.findPiso(nombre);
   }
 
-  @Post('buscarE')
-  findEdificio(@Body() body: { nombre?: string }) {
-    const { nombre } = body;
-    return this.pisosService.findEdificio(nombre);
-  }
-
-  @Post('buscarA')
+/*   @Post('buscarA')
   findAula(@Body() body: { nombre?: string }) {
     const { nombre } = body;
     return this.pisosService.findAula(nombre);
-  }
+  } */
 
   @Patch(':id')
   update(@Param('id') id: number, @Body() updatePisoDto: UpdatePisoDto) {
