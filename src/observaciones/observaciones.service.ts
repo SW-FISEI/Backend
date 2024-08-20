@@ -45,8 +45,10 @@ export class ObservacionesService {
               nombre: true,
               aula: {
                 nombre: true,
-                piso: {
-                  nombre: true,
+                detalle_piso: {
+                  piso: {
+                    nombre: true,
+                  },
                   edificio: {
                     nombre: true,
                   }
@@ -54,11 +56,11 @@ export class ObservacionesService {
               },
             },
           },
-          relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
+          relations: ['maquina', 'maquina.aula', 'maquina.aula.detalle_piso', 'maquina.aula.detalle_piso.piso', 'maquina.aula.detalle_piso.edificio']
         })
       } else {
         return await this.observacionRepository.find({
-          relations: ['maquina', 'maquina.aula', 'maquina.aula.piso', 'maquina.aula.piso.edificio']
+          relations: ['maquina', 'maquina.aula', 'maquina.aula.detalle_piso', 'maquina.aula.detalle_piso.piso', 'maquina.aula.detalle_piso.edificio']
         })
       }
     } catch (error) {
