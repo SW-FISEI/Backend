@@ -1,5 +1,5 @@
+import { DetallePiso } from "src/detalle_pisos/entities/detalle_piso.entity";
 import { Laboratorista } from "src/laboratoristas/entities/laboratorista.entity";
-import { Piso } from "src/pisos/entities/piso.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('edificios')
@@ -14,8 +14,8 @@ export class Edificio {
     @OneToMany(() => Laboratorista, laboratorista => laboratorista.edificio)
     laboratoristas: Laboratorista[];
 
-    @OneToMany(() => Piso, piso => piso.edificio)
-    pisos: Piso[]
+    @OneToMany(() => DetallePiso, detalle_pisos => detalle_pisos.edificio)
+    detalle_pisos: DetallePiso[]
 
     @CreateDateColumn()
     created_at: Date;
