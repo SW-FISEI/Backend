@@ -63,7 +63,7 @@ export class DetalleHorariosService {
 
   async findAll() {
     return await this.detalleHorarioRepository.find({
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     });
   }
 
@@ -72,7 +72,7 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     });
   }
 
@@ -82,22 +82,22 @@ export class DetalleHorariosService {
         return await this.detalleHorarioRepository.find({
           where: {
             aula: {
-              piso: {
+              detalle_piso: {
                 edificio: {
                   nombre: Like(`%${edificio}%`)
                 }
               }
             }
           },
-          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+          relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
         })
       } else {
         return await this.detalleHorarioRepository.find({
-          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+          relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
         })
       }
     } catch (error) {
-
+      throw new HttpException(`Error interno`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -108,11 +108,11 @@ export class DetalleHorariosService {
           where: {
             aula: Like(`%${aula}%`)
           },
-          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+          relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
         })
       } else {
         return await this.detalleHorarioRepository.find({
-          relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+          relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
         })
       }
     } catch (error) {
@@ -125,7 +125,7 @@ export class DetalleHorariosService {
       where: {
         periodo: { id: periodo }
       },
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     })
   }
 
@@ -134,7 +134,7 @@ export class DetalleHorariosService {
       where: {
         materia: { id: materia }
       },
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     })
   }
 
@@ -143,7 +143,7 @@ export class DetalleHorariosService {
       where: {
         docente: { cedula: docente }
       },
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     })
   }
 
@@ -198,7 +198,7 @@ export class DetalleHorariosService {
       where: {
         id: id
       },
-      relations: ['aula.piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
+      relations: ['aula.detalle_piso.edificio', 'periodo', 'materia', 'materia.materia', 'materia.carrera', 'materia.paralelo', 'materia.semestre', 'docente']
     })
   }
 
