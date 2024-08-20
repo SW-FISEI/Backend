@@ -2,7 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { DetallePisosService } from './detalle_pisos.service';
 import { CreateDetallePisoDto } from './dto/create-detalle_piso.dto';
 import { UpdateDetallePisoDto } from './dto/update-detalle_piso.dto';
+import { ApiBearerAuth, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { Rol } from 'src/common/enum/rol.enum';
 
+@ApiTags('Detalle-Piso')
+@ApiUnauthorizedResponse({
+  description: 'Unauthorized Bearer Auth',
+})
+@ApiBearerAuth()
+@Auth(Rol.USER)
 @Controller('detalle-pisos')
 export class DetallePisosController {
   constructor(private readonly detallePisosService: DetallePisosService) { }
