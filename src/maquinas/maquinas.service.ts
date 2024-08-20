@@ -43,14 +43,22 @@ export class MaquinasService {
             nombre: true,
             aula: {
               id: true,
-              nombre: true
+              nombre: true,
+              detalle_piso: {
+                piso: {
+                  nombre: true
+                },
+                edificio: {
+                  nombre: true
+                }
+              }
             }
           },
-          relations: ['aula']
+          relations: ['aula', 'aula.detalle_piso', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio','observaciones']
         });
       } else {
         return await this.maquinaRepository.find({
-          relations: ['aula', 'observaciones']
+          relations: ['aula', 'aula.detalle_piso', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio','observaciones']
         });
       }
     } catch (error) {
@@ -61,7 +69,7 @@ export class MaquinasService {
   async findOne(id: number) {
     return await this.maquinaRepository.findOne({
       where: { id: id },
-      relations: ['aula', 'observaciones']
+      relations: ['aula', 'aula.detalle_piso', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio','observaciones']
     });
   }
 
@@ -73,11 +81,11 @@ export class MaquinasService {
           where: {
             aula: { nombre: Like(`%${nombre}%`) }
           },
-          relations: ['aula', 'observaciones']
+          relations: ['aula', 'aula.detalle_piso', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio','observaciones']
         })
       } else {
         return await this.maquinaRepository.find({
-          relations: ['aula', 'observaciones']
+          relations: ['aula', 'aula.detalle_piso', 'aula.detalle_piso.piso', 'aula.detalle_piso.edificio','observaciones']
         })
       }
     } catch (error) {
