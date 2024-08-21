@@ -15,11 +15,6 @@ export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('registro')
-    @ApiUnauthorizedResponse({
-        description: 'Unauthorized Bearer Auth',
-    })
-    @ApiBearerAuth()
-    @Auth(Rol.ADMIN)
     registro(@Body() registroDto: RegistroDto) {
         return this.authService.registro(registroDto);
     }
