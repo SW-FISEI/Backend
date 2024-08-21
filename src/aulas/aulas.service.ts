@@ -83,23 +83,6 @@ export class AulasService {
       where: {
         id: id
       },
-      select: {
-        id: true,
-        nombre: true,
-        cantidad_pc: true,
-        capacidad: true,
-        proyector: true,
-        aire: true,
-        descripcion: true,
-        detalle_piso: {
-          piso: {
-            nombre: true
-          },
-          edificio: {
-            nombre: true
-          }
-        }
-      },
       relations: ['detalle_piso.piso', 'detalle_piso.edificio']
     });
   }
@@ -143,7 +126,7 @@ export class AulasService {
       where: {
         id: detalle_piso
       },
-      relations: ['detalle_piso.piso', 'detalle_piso.edificio']
+      relations: ['piso', 'edificio']
     });
     if (!pisoE) throw new HttpException(`No se encontro el piso`, HttpStatus.NOT_FOUND)
 

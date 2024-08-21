@@ -16,23 +16,23 @@ export class DocentesService {
 
   async create(createDocenteDto: CreateDocenteDto) {
     const { titulo, ...rest } = createDocenteDto;
-  
+
     let tituloE = null;
-    
+
     if (titulo) {
       tituloE = await this.tituloRepository.findOne({ where: { id: titulo } });
-  
+
       // Si no encuentras el título, puedes lanzar un error o manejarlo según el caso
       if (!tituloE) {
         throw new Error(`El título con id ${titulo} no existe.`);
       }
     }
-  
+
     const docente = this.docenteRepository.create({
       ...rest,
       titulo: tituloE,
     });
-  
+
     return await this.docenteRepository.save(docente);
   }
 
@@ -81,13 +81,16 @@ export class DocentesService {
   }
 
   async update(cedula: string, updateDocenteDto: UpdateDocenteDto) {
-    const { titulo, ...rest } = updateDocenteDto
+    const { titulo, ...rest } = updateDocenteDto;
 
-    const docente = await this.docenteRepository.findOne({ where: { cedula: cedula } })
-    if (!docente) throw new HttpException(`No se encontro el docente`, HttpStatus.NOT_FOUND);
+    const docente = await this.docenteRepository.findOne({ where: { cedula: cedula } });
+    if (!docente) throw new HttpException(`No se encontró el docente`, HttpStatus.NOT_FOUND);
 
-    const tituloE = await this.tituloRepository.findOne({ where: { id: titulo } });
-    if (!tituloE) throw new HttpException(`No se encontró el título`, HttpStatus.NOT_FOUND);
+    let tituloE = null;
+    if (titulo) {
+      tituloE = await this.tituloRepository.findOne({ where: { id: titulo } });
+      if (!tituloE) throw new HttpException(`No se encontró el título`, HttpStatus.NOT_FOUND);
+    }
 
     await this.docenteRepository.update({ cedula },
       {
