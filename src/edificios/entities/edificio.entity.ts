@@ -11,10 +11,10 @@ export class Edificio {
     @Column({ type: "varchar", length: 50, nullable: false })
     nombre: string
 
-    @OneToMany(() => Laboratorista, laboratorista => laboratorista.edificio)
+    @OneToMany(() => Laboratorista, laboratorista => laboratorista.edificio, { cascade: true })
     laboratoristas: Laboratorista[];
 
-    @OneToMany(() => DetallePiso, detalle_pisos => detalle_pisos.edificio)
+    @OneToMany(() => DetallePiso, detalle_pisos => detalle_pisos.edificio, { cascade: true })
     detalle_pisos: DetallePiso[]
 
     @CreateDateColumn()

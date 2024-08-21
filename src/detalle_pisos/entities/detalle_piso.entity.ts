@@ -9,7 +9,7 @@ export class DetallePiso {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToMany(() => Aula, aula => aula.detalle_piso)
+    @OneToMany(() => Aula, aula => aula.detalle_piso, { cascade: true })
     aula: Aula[];
 
     @ManyToOne(() => Edificio, edificio => edificio.detalle_pisos, { nullable: false })

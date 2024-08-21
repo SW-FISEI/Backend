@@ -13,7 +13,7 @@ export class Materia {
     @Column({ type: "varchar", length: 100, nullable: false })
     descripcion: string
 
-    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.materia)
+    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.materia, { cascade: true })
     detalle_materias: DetalleMateria[];
 
     @CreateDateColumn()

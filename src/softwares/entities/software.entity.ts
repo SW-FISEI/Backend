@@ -16,7 +16,7 @@ export class Software {
     @Column({ type: "varchar", length: 200, nullable: false })
     descripcion: string
 
-    @OneToMany(() => SoftwareAula, software_aula => software_aula.software)
+    @OneToMany(() => SoftwareAula, software_aula => software_aula.software, { cascade: true })
     software_aula: SoftwareAula[]
 
     @CreateDateColumn()

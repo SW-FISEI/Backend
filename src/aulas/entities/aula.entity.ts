@@ -33,13 +33,13 @@ export class Aula {
     @JoinColumn({ name: 'id_detalle_piso' })
     detalle_piso: DetallePiso;
 
-    @OneToMany(() => Maquina, maquina => maquina.aula)
+    @OneToMany(() => Maquina, maquina => maquina.aula, { cascade: true })
     maquinas: Maquina[];
 
-    @OneToMany(() => SoftwareAula, software_aula => software_aula.aula)
+    @OneToMany(() => SoftwareAula, software_aula => software_aula.aula, { cascade: true })
     software_aula: SoftwareAula[]
 
-    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.aula)
+    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.aula, { cascade: true })
     detalle_horarios: DetalleHorario[];
 
     @CreateDateColumn()

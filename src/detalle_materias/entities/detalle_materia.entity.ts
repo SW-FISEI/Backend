@@ -27,7 +27,7 @@ export class DetalleMateria {
     @JoinColumn({ name: 'id_paralelo' })
     paralelo: Paralelo;
 
-    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.materia)
+    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.materia, { cascade: true })
     detalle_horarios: DetalleHorario[]
 
     @CreateDateColumn()

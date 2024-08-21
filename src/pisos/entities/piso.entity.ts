@@ -10,7 +10,7 @@ export class Piso {
     @Column({ type: "varchar", length: 50, nullable: false })
     nombre: string
 
-    @OneToMany(() => DetallePiso, detalle_pisos => detalle_pisos.piso)
+    @OneToMany(() => DetallePiso, detalle_pisos => detalle_pisos.piso, { cascade: true })
     detalle_pisos: DetallePiso[]
 
     @CreateDateColumn()

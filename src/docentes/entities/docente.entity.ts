@@ -15,7 +15,7 @@ export class Docente {
     @JoinColumn({ name: 'id_titulo' })
     titulo: Titulo;
 
-    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.docente)
+    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.docente, { cascade: true })
     detalle_horarios: DetalleHorario[]
 
     @CreateDateColumn()

@@ -10,7 +10,7 @@ export class Paralelo {
     @Column({ type: "varchar", length: 4, nullable: true, unique: true })
     nombre: string
 
-    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.paralelo)
+    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.paralelo, { cascade: true })
     detalle_materias: DetalleMateria[]
 
     @CreateDateColumn()

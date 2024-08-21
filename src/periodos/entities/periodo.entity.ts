@@ -26,7 +26,7 @@ export class Periodo {
     @Column({ type: "enum", enum: Estado, nullable: false })
     estado: Estado;
 
-    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.periodo)
+    @OneToMany(() => DetalleHorario, detalle_horario => detalle_horario.periodo, { cascade: true })
     detalle_horario: DetalleHorario[]
 
     @CreateDateColumn()

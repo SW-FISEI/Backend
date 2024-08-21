@@ -15,7 +15,7 @@ export class Maquina {
     @JoinColumn({ name: 'id_aula' })
     aula: Aula;
 
-    @OneToMany(() => Observacione, observaciones => observaciones.maquina)
+    @OneToMany(() => Observacione, observaciones => observaciones.maquina, { cascade: true })
     observaciones: Observacione[]
 
     @CreateDateColumn()

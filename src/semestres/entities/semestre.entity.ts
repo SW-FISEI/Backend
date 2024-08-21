@@ -10,7 +10,7 @@ export class Semestre {
     @Column({ length: 50, nullable: false, unique: true })
     nombre: string
 
-    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.semestre)
+    @OneToMany(() => DetalleMateria, detalle_materia => detalle_materia.semestre, { cascade: true })
     detalle_materias: DetalleMateria[];
 
     @CreateDateColumn()

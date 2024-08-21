@@ -14,10 +14,10 @@ export class Titulo {
     @Column({ type: "varchar", length: 25, nullable: false })
     abreviacion: string
 
-    @OneToMany(() => Docente, docente => docente.titulo)
+    @OneToMany(() => Docente, docente => docente.titulo, { cascade: true })
     docente: Docente[]
 
-    @OneToMany(() => Laboratorista, laboratorista => laboratorista.titulo)
+    @OneToMany(() => Laboratorista, laboratorista => laboratorista.titulo, { cascade: true })
     laboratorista: Laboratorista[]
 
     @CreateDateColumn()
